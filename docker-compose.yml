@@ -1,0 +1,12 @@
+services:
+  codigo-en-familia-web:
+    build: .
+    container_name: codigo-en-familia-web
+    restart: unless-stopped
+    ports:
+      - "3200:3000"
+    environment:
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://casaos:58461Girardot!@192.168.68.201:5432/codigo_en_familia?schema=public

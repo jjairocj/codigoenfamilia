@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cuento-interactivo",
+    "title": "Cuento interactivo",
+    "description": "Un cuento donde el lector elige qué pasa",
+    "body": "# 📚 Cuento interactivo\n\n**Edades:** semillas–inventores · **Herramienta:** ScratchJr, Scratch o Python\n\n## 💡 La idea\nUn cuento donde el lector elige qué pasa. Los pequeños lo dibujan y los mayores lo programan.\n\n## 🧩 Qué vas a usar\n- Escenas y mensajes\n- Condicionales\n- Funciones (en Python)\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Varios finales.\n- Narración con la voz de la familia.\n\n← [Proyectos](/proyectos)"
+  },
+  {
+    "id": "estacion-del-clima",
+    "title": "Estación del clima",
+    "description": "Registrar la temperatura y la luz y mostrar un ícono según el tiempo; analizar los datos con Python",
+    "body": "# 🌦️ Estación del clima\n\n**Edades:** inventores–creadores · **Herramienta:** micro:bit (simulador) + Python\n\n## 💡 La idea\nRegistrar la temperatura y la luz y mostrar un ícono según el tiempo; analizar los datos con Python.\n\n## 🧩 Qué vas a usar\n- Sensores\n- Condicionales\n- Datos y gráficos\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Comparar con los datos oficiales del IDEAM ⚠.\n- Alarma de calor.\n\n← [Proyectos](/proyectos)"
+  },
+  {
+    "id": "juego-de-mesa-digital",
+    "title": "Juego de mesa digital",
+    "description": "Convertir un juego de mesa familiar (parqués, escalera, triqui) en digital",
+    "body": "# 🎲 Juego de mesa digital\n\n**Edades:** exploradores–creadores · **Herramienta:** Scratch o JavaScript\n\n## 💡 La idea\nConvertir un juego de mesa familiar (parqués, escalera, triqui) en digital.\n\n## 🧩 Qué vas a usar\n- Números al azar (dados)\n- Estados del juego (turnos)\n- Listas (casillas)\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Jugar contra el computador.\n- Guardar partidas.\n\n← [Proyectos](/proyectos)"
+  },
+  {
+    "id": "mascota-virtual",
+    "title": "Mascota virtual",
+    "description": "Una mascota que tiene hambre, sueño y ganas de jugar",
+    "body": "# 🐶 Mascota virtual\n\n**Edades:** exploradores–inventores · **Herramienta:** Scratch\n\n## 💡 La idea\nUna mascota que tiene hambre, sueño y ganas de jugar. Si no la cuidas, se pone triste.\n\n## 🧩 Qué vas a usar\n- Variables (hambre, energía, alegría)\n- Condicionales\n- Eventos (botones para alimentar y jugar)\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Que la mascota crezca con el tiempo.\n- Guardar el estado (en Python, con archivos).\n\n← [Proyectos](/proyectos)"
+  },
+  {
+    "id": "pagina-de-la-familia",
+    "title": "Página de la familia",
+    "description": "Un sitio privado para la familia con el calendario de cumpleaños o las recetas",
+    "body": "# 🏡 Página de la familia\n\n**Edades:** creadores · **Herramienta:** HTML/CSS/JS\n\n## 💡 La idea\nUn sitio privado para la familia con el calendario de cumpleaños o las recetas. **Ojo:** si se publica, no debe incluir datos personales.\n\n## 🧩 Qué vas a usar\n- Web completa\n- Privacidad por diseño\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Contador de días para el próximo encuentro.\n- Galería de proyectos de los niños (sin fotos de caras).\n\n← [Proyectos](/proyectos)"
+  },
+  {
+    "id": "quiz-familiar",
+    "title": "Quiz de la familia",
+    "description": "Un concurso con preguntas sobre la historia de la familia, la ciudad o un tema favorito, para jugar en una reunión",
+    "body": "# ❓ Quiz de la familia\n\n**Edades:** exploradores–creadores · **Herramienta:** Scratch o Python\n\n## 💡 La idea\nUn concurso con preguntas sobre la historia de la familia, la ciudad o un tema favorito, para jugar en una reunión.\n\n## 🧩 Qué vas a usar\n- Entrada del usuario\n- Listas de preguntas y respuestas\n- Variables de puntaje\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Preguntas al azar.\n- Modo de dos jugadores.\n\n← [Proyectos](/proyectos)"
+  },
+  {
+    "id": "recetario-digital",
+    "title": "Recetario de la abuela",
+    "description": "Un pequeño recetario digital con las recetas de la familia (sin datos personales): ingredientes, pasos y fotos de los platos",
+    "body": "# 🍲 Recetario de la abuela\n\n**Edades:** inventores–creadores · **Herramienta:** HTML/CSS o Python\n\n## 💡 La idea\nUn pequeño recetario digital con las recetas de la familia (sin datos personales): ingredientes, pasos y fotos de los platos.\n\n## 🧩 Qué vas a usar\n- Listas y diccionarios o HTML semántico\n- Diseño adaptable para leer en el celular en la cocina\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Buscador de recetas por ingrediente.\n- Calculadora de porciones.\n\n← [Proyectos](/proyectos)"
+  },
+  {
+    "id": "tarjeta-animada",
+    "title": "Tarjeta animada de cumpleaños",
+    "description": "Una tarjeta animada para el cumpleaños de alguien de la familia: personajes que cantan, globos que suben y un mensaje",
+    "body": "# 🎂 Tarjeta animada de cumpleaños\n\n**Edades:** semillas–exploradores · **Herramienta:** ScratchJr o Scratch\n\n## 💡 La idea\nUna tarjeta animada para el cumpleaños de alguien de la familia: personajes que cantan, globos que suben y un mensaje.\n\n## 🧩 Qué vas a usar\n- Secuencias y eventos\n- Bucles para los globos\n- Mensajes para coordinar\n\n## 👣 Cómo empezar\n1. Dibuja tu idea en papel: ¿qué se ve? ¿Qué hace el usuario?\n2. Haz la **versión mínima** que funcione.\n3. Pruébala con alguien de la familia.\n4. Mejórala con lo que observaste.\n\n## 🚀 Para ir más allá\n- Grabar la voz cantando (con permiso).\n- Un botón sorpresa.\n\n← [Proyectos](/proyectos)"
+  }
+]

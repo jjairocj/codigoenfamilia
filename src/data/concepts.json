@@ -1,0 +1,176 @@
+[
+  {
+    "id": "aleatorio",
+    "title": "🎲 Números al azar",
+    "description": "Números al azar",
+    "body": "# 🎲 Números al azar\n\n## 🧒 Para niños\nUn número **al azar** es uno que el computador elige como si tirara un dado. Sirve para que los juegos sean diferentes cada vez.\n\n## 🏠 En la vida diaria\nTirar un dado en un juego de mesa.\n\n> 👩‍👧 **Para el adulto**\n>\n> En Scratch: \"número aleatorio entre 1 y 10\"; en Python: `random.randint(1, 10)`.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🧭 [Exploradores](/niveles/exploradores) | Lluvia de estrellas en lugares distintos |\n| 💡 [Inventores](/niveles/inventores) | Adivina el número |\n| 🚀 [Creadores](/niveles/creadores) | Simulaciones y juegos |\n\n## 🎯 Misiones donde lo usas\n[E09 · Al azar](/misiones/exploradores/e09-al-azar)\n\n## 🔗 Relacionado\n[Variable](/conceptos/variable)"
+  },
+  {
+    "id": "algoritmo",
+    "title": "Algoritmo",
+    "description": "Algoritmo: pasos para resolver un problema",
+    "body": "# 📜 Algoritmo\n\n## 🧒 Para niños\nUn **algoritmo** es una lista de pasos para resolver un problema. Es como una receta, pero para cualquier cosa: llegar al colegio, ordenar tus juguetes, ganar un juego.\n\n## 🏠 En la vida diaria\nLa receta de la arepa, las instrucciones para armar un juguete, el camino de tu casa al parque.\n\n> 👩‍👧 **Para el adulto**\n>\n> Un algoritmo es la idea; el programa es el algoritmo escrito para un computador. Con los mayores se comparan algoritmos: ¿cuál es más rápido?\n{.is-warning}\n\n\n## 🎮 Simulador Interactivo de Algoritmos\nPrueba qué es un algoritmo en la práctica: arma una secuencia de instrucciones en orden para que el robot recoja las estrellas.\n\n<div style=\"margin: 20px 0; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; overflow: hidden; background: #0f172a;\">\n  <div style=\"background: #1e293b; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center;\">\n    <span style=\"font-weight: bold; color: #38bdf8; font-size: 0.9rem;\">🤖 El Robot Explorador — Práctica en Vivo</span>\n    <a href=\"/_assets/tools/codigo-en-familia/simulador-robot-algoritmos.html\" target=\"_blank\" style=\"color: #38bdf8; text-decoration: none; font-size: 0.8rem; font-weight: bold;\">Abrir en pantalla completa ↗</a>\n  </div>\n  <iframe src=\"/_assets/tools/codigo-en-familia/simulador-robot-algoritmos.html\" style=\"width: 100%; height: 580px; border: none;\" loading=\"lazy\"></iframe>\n</div>\n\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Recetas y caminos |\n| 🧭 [Exploradores](/niveles/exploradores) | Planear un juego antes de construirlo |\n| 💡 [Inventores](/niveles/inventores) | Adivinar un número de forma inteligente |\n| 🚀 [Creadores](/niveles/creadores) | Búsqueda y ordenamiento |\n\n## 🎯 Misiones donde lo usas\n[S02 · La receta de la arepa](/misiones/semillas/s02-receta-de-la-arepa) · [C07 · Buscar y ordenar](/misiones/creadores/c07-buscar-y-ordenar)\n\n## 🔗 Relacionado\n[Secuencia](/conceptos/secuencia) · [Pensamiento computacional](/conceptos/pensamiento-computacional)"
+  },
+  {
+    "id": "animacion",
+    "title": "🎞️ Animación",
+    "description": "Animación: imágenes que cambian rápido",
+    "body": "# 🎞️ Animación\n\n## 🧒 Para niños\nUna **animación** son muchas imágenes (disfraces) que cambian muy rápido y parece que se mueven.\n\n## 🏠 En la vida diaria\nUn libro con dibujos en cada página que, al pasarlo rápido, parece una película.\n\n> 👩‍👧 **Para el adulto**\n>\n> En Scratch se usan disfraces y \"siguiente disfraz\" con esperas cortas.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Personajes que se mueven en ScratchJr |\n| 🧭 [Exploradores](/niveles/exploradores) | Disfraces en Scratch |\n| 💡 [Inventores](/niveles/inventores) | Animaciones en juegos |\n\n## 🎯 Misiones donde lo usas\n[E06 · Disfraces](/misiones/exploradores/e06-disfraces)"
+  },
+  {
+    "id": "binario",
+    "title": "0️⃣ Binario: ceros y unos",
+    "description": "Binario: ceros y unos",
+    "body": "# 0️⃣ Binario: ceros y unos\n\n## 🧒 Para niños\nLos computadores guardan **todo** (fotos, música, letras) usando solo dos símbolos: **0 y 1**. ¡Con muchos ceros y unos se puede guardar cualquier cosa!\n\n## 🏠 En la vida diaria\nUn interruptor de luz: apagado (0) o encendido (1).\n\n> 👩‍👧 **Para el adulto**\n>\n> Con cartas de puntos (1, 2, 4, 8, 16) se aprende a contar en binario (actividad de CS Unplugged). Los píxeles de una imagen también son números.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Cartas de puntos |\n| 🧭 [Exploradores](/niveles/exploradores) | Arte en píxeles |\n| 💡 [Inventores](/niveles/inventores) | Cómo viajan los datos por internet |\n\n## 🎯 Misiones donde lo usas\n[S13 · Ceros y unos](/misiones/semillas/s13-ceros-y-unos) · [E16 · Arte en píxeles](/misiones/exploradores/e16-arte-en-pixeles)"
+  },
+  {
+    "id": "bucle",
+    "title": "🔁 Bucle (repetir)",
+    "description": "Bucle: repetir instrucciones",
+    "body": "# 🔁 Bucle (repetir)\n\n## 🧒 Para niños\nUn **bucle** sirve para **repetir** algo sin tener que escribirlo muchas veces. En vez de decir \"salta, salta, salta, salta\", dices \"**repite 4 veces**: salta\".\n\n## 🏠 En la vida diaria\nLos coros de las canciones, lavar los platos uno por uno, dar vueltas a la cancha.\n\n> 👩‍👧 **Para el adulto**\n>\n> Tipos: repetir un número de veces (repetir 10, `for`), repetir por siempre, repetir hasta que algo pase (`while`). Pida al niño que encuentre patrones que se repiten.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Patrones de baile y tarjetas \"repetir\" |\n| 🧭 [Exploradores](/niveles/exploradores) | Repetir y por siempre en Scratch |\n| 💡 [Inventores](/niveles/inventores) | `for` y `while` en Python |\n| 🚀 [Creadores](/niveles/creadores) | Recorrer listas y datos |\n\n## 🎯 Misiones donde lo usas\n[S05 · Repite conmigo](/misiones/semillas/s05-repite-conmigo) · [S09 · Otra vez y otra vez](/misiones/semillas/s09-otra-vez-y-otra-vez) · [E03 · Por siempre](/misiones/exploradores/e03-por-siempre) · [E11 · Sonidos y música](/misiones/exploradores/e11-sonidos-y-musica) · [E12 · Pinta con código](/misiones/exploradores/e12-pinta-con-codigo) · [I09 · Repetir con for](/misiones/inventores/i09-repetir-con-for) · [I12 · Adivina el número](/misiones/inventores/i12-adivina-el-numero)\n\n## 🔗 Relacionado\n[Secuencia](/conceptos/secuencia) · [Condicional (si… entonces)](/conceptos/condicional)"
+  },
+  {
+    "id": "clon",
+    "title": "🐑 Clones",
+    "description": "Clones",
+    "body": "# 🐑 Clones\n\n## 🧒 Para niños\nUn **clon** es una copia de un personaje que el programa crea mientras juegas: por ejemplo, 20 estrellas que caen a partir de una sola.\n\n## 🏠 En la vida diaria\nUn sello: con uno solo haces muchas copias iguales.\n\n> 👩‍👧 **Para el adulto**\n>\n> Scratch: \"crear clon de mí mismo\" y \"al comenzar como clon\". Es la base de muchos juegos con muchos enemigos u objetos.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 💡 [Inventores](/niveles/inventores) | Juegos con muchos objetos |\n\n## 🎯 Misiones donde lo usas\n[I01 · Clones](/misiones/inventores/i01-clones)\n\n## 🔗 Relacionado\n[Evento](/conceptos/evento)"
+  },
+  {
+    "id": "condicional",
+    "title": "🚦 Condicional (si… entonces)",
+    "description": "Condicional: si pasa esto, haz aquello",
+    "body": "# 🚦 Condicional (si… entonces)\n\n## 🧒 Para niños\nUn **condicional** sirve para tomar decisiones: **si** pasa algo, haz una cosa; **si no**, haz otra.\n\n## 🏠 En la vida diaria\n**Si** llueve, llevas paraguas; **si no**, llevas gorra.\n\n> 👩‍👧 **Para el adulto**\n>\n> Estructura \"si… entonces… si no\". Aparece en todos los juegos (si toca al enemigo, pierde una vida). En Python: `if`, `elif`, `else`.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Juego de tarjetas sí/no |\n| 🧭 [Exploradores](/niveles/exploradores) | Si toca la pared, rebota |\n| 💡 [Inventores](/niveles/inventores) | `if` en Python |\n| 🚀 [Creadores](/niveles/creadores) | Lógica compleja |\n\n## 🎯 Misiones donde lo usas\n[S12 · Sí o no](/misiones/semillas/s12-si-o-no) · [E07 · Si toca…](/misiones/exploradores/e07-si-toca) · [E15 · Enemigos](/misiones/exploradores/e15-enemigos) · [I11 · Decisiones con if](/misiones/inventores/i11-decisiones-con-if)\n\n## 🔗 Relacionado\n[Variable](/conceptos/variable) · [Bucle (repetir)](/conceptos/bucle)"
+  },
+  {
+    "id": "coordenadas",
+    "title": "📍 Coordenadas",
+    "description": "Coordenadas: la dirección de cada punto de la pantalla",
+    "body": "# 📍 Coordenadas\n\n## 🧒 Para niños\nLa pantalla es como un mapa con dos números: **x** (izquierda–derecha) e **y** (arriba–abajo). Con ellos se dice dónde está cada personaje.\n\n## 🏠 En la vida diaria\nLa batalla naval: \"B-4\" dice exactamente dónde está un barco.\n\n> 👩‍👧 **Para el adulto**\n>\n> En Scratch el centro es (0, 0); x va de −240 a 240 e y de −180 a 180.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🧭 [Exploradores](/niveles/exploradores) | Mover personajes a lugares exactos |\n| 💡 [Inventores](/niveles/inventores) | Tortuga de Python, juegos de plataformas |\n| 🚀 [Creadores](/niveles/creadores) | Juegos 2D y diseño web |\n\n## 🎯 Misiones donde lo usas\n[E05 · Coordenadas](/misiones/exploradores/e05-coordenadas)"
+  },
+  {
+    "id": "datos",
+    "title": "💾 Datos y archivos",
+    "description": "Datos y archivos",
+    "body": "# 💾 Datos y archivos\n\n## 🧒 Para niños\nLos **datos** son información que un programa usa y guarda, por ejemplo en **archivos**, para no perderla cuando se apaga.\n\n## 🏠 En la vida diaria\nUn cuaderno donde anotas los puntos de cada partido para no olvidarlos.\n\n> 👩‍👧 **Para el adulto**\n>\n> Nivel Creadores: leer y escribir archivos de texto y CSV, analizar datos sencillos.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🚀 [Creadores](/niveles/creadores) | Archivos y análisis de datos |\n\n## 🎯 Misiones donde lo usas\n[C05 · Archivos](/misiones/creadores/c05-archivos) · [C10 · Analizar datos](/misiones/creadores/c10-analizar-datos)\n\n## 🔗 Relacionado\n[Lista](/conceptos/lista)"
+  },
+  {
+    "id": "depuracion",
+    "title": "🐞 Depuración",
+    "description": "Depuración: encontrar y arreglar errores",
+    "body": "# 🐞 Depuración\n\n## 🧒 Para niños\nA los errores de un programa se les llama **bichos** (en inglés, *bugs*). **Depurar** es encontrar el bicho y arreglarlo. ¡Todos los programadores lo hacen todos los días!\n\n## 🏠 En la vida diaria\nSi una torre de bloques se cae, miras qué bloque estaba mal puesto y lo arreglas.\n\n> 👩‍👧 **Para el adulto**\n>\n> Enseñe que el error no es un fracaso, sino una pista. Estrategia: comparar lo que se esperaba con lo que pasó y probar partes pequeñas. Ver [Cuando se atasca](/guia-adultos/cuando-se-atasca).\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Encontrar la tarjeta equivocada |\n| 🧭 [Exploradores](/niveles/exploradores) | Probar paso a paso en Scratch |\n| 💡 [Inventores](/niveles/inventores) | Leer mensajes de error de Python |\n| 🚀 [Creadores](/niveles/creadores) | Manejo de errores y pruebas |\n\n## 🎯 Misiones donde lo usas\n[S04 · ¡Encontré el bicho!](/misiones/semillas/s04-encontre-el-bicho) · [I15 · Leer errores](/misiones/inventores/i15-leer-errores) · [C06 · Manejo de errores](/misiones/creadores/c06-manejo-de-errores)\n\n## 🔗 Relacionado\n[¿Qué es un programa?](/conceptos/programa)"
+  },
+  {
+    "id": "derechos-de-autor",
+    "title": "©️ Derechos de autor y remix",
+    "description": "Derechos de autor y remix",
+    "body": "# ©️ Derechos de autor y remix\n\n## 🧒 Para niños\nCuando usas el trabajo de otra persona (un juego, una imagen, una canción), **dices de quién es** y respetas lo que permite su autor.\n\n## 🏠 En la vida diaria\nSi copias un dibujo de un amigo, pones \"idea de Ana\".\n\n> 👩‍👧 **Para el adulto**\n>\n> En Scratch, \"reinventar\" (remix) es parte de la cultura, pero se da crédito al autor original. En Creadores: licencias libres.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🧭 [Exploradores](/niveles/exploradores) | Remix en Scratch |\n| 🚀 [Creadores](/niveles/creadores) | Licencias y colaboración |\n\n## 🎯 Misiones donde lo usas\n[E18 · Remix](/misiones/exploradores/e18-remix)\n\n## 🔗 Relacionado\n[Privacidad y seguridad](/conceptos/privacidad)"
+  },
+  {
+    "id": "entrada-salida",
+    "title": "🔌 Entradas y salidas",
+    "description": "Entradas y salidas",
+    "body": "# 🔌 Entradas y salidas\n\n## 🧒 Para niños\nUna máquina **recibe** información (entradas: botones, teclado, sensores) y **responde** (salidas: pantalla, luces, sonido).\n\n## 🏠 En la vida diaria\nPresionas el botón del ascensor (entrada) y se enciende la luz y llega el ascensor (salida).\n\n> 👩‍👧 **Para el adulto**\n>\n> Con la micro:bit (o su simulador) se ve claramente: botones A y B y sensores como entradas; LED y sonido como salidas.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 💡 [Inventores](/niveles/inventores) | micro:bit |\n| 🚀 [Creadores](/niveles/creadores) | Programas y páginas que reciben datos |\n\n## 🎯 Misiones donde lo usas\n[I17 · Mi primera placa](/misiones/inventores/i17-mi-primera-placa)\n\n## 🔗 Relacionado\n[Sensores](/conceptos/sensor) · [Evento](/conceptos/evento)"
+  },
+  {
+    "id": "entrada",
+    "title": "⌨️ Entrada del usuario",
+    "description": "Entrada del usuario",
+    "body": "# ⌨️ Entrada del usuario\n\n## 🧒 Para niños\nLa **entrada** es la información que tú le das al programa: lo que escribes, las teclas que presionas o dónde haces clic.\n\n## 🏠 En la vida diaria\nCuando el cajero te pregunta \"¿efectivo o tarjeta?\" y tú respondes.\n\n> 👩‍👧 **Para el adulto**\n>\n> Scratch: \"preguntar y esperar\" + \"respuesta\". Python: `input()`.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🧭 [Exploradores](/niveles/exploradores) | Cuestionarios |\n| 💡 [Inventores](/niveles/inventores) | Conversar con el programa |\n| 🚀 [Creadores](/niveles/creadores) | Formularios web |\n\n## 🎯 Misiones donde lo usas\n[E13 · Preguntar y responder](/misiones/exploradores/e13-preguntar-y-responder)\n\n## 🔗 Relacionado\n[Variable](/conceptos/variable)"
+  },
+  {
+    "id": "estado",
+    "title": "🚥 Estados del juego",
+    "description": "Estados del juego",
+    "body": "# 🚥 Estados del juego\n\n## 🧒 Para niños\nUn juego pasa por **estados**: pantalla de inicio, jugando, ganaste, perdiste. El programa recuerda en qué estado está.\n\n## 🏠 En la vida diaria\nUn semáforo: verde, amarillo, rojo, y cada estado significa algo distinto.\n\n> 👩‍👧 **Para el adulto**\n>\n> Se implementa con una variable (\"estado\" o \"nivel\") y condicionales.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 💡 [Inventores](/niveles/inventores) | Niveles y pantallas de juego |\n| 🚀 [Creadores](/niveles/creadores) | Aplicaciones con varias pantallas |\n\n## 🎯 Misiones donde lo usas\n[I05 · Niveles de juego](/misiones/inventores/i05-niveles-de-juego)\n\n## 🔗 Relacionado\n[Variable](/conceptos/variable) · [Condicional (si… entonces)](/conceptos/condicional)"
+  },
+  {
+    "id": "evento",
+    "title": "👆 Evento",
+    "description": "Evento: algo que pone en marcha el programa",
+    "body": "# 👆 Evento\n\n## 🧒 Para niños\nUn **evento** es algo que pasa y hace que el programa empiece a hacer algo: tocar un personaje, presionar una tecla, hacer clic en la bandera verde.\n\n## 🏠 En la vida diaria\nCuando suena el timbre (evento), sales al recreo (acción).\n\n> 👩‍👧 **Para el adulto**\n>\n> Los eventos permiten que un programa responda al usuario. En Scratch son los bloques amarillos con forma de sombrero; en la web, los `addEventListener` de JavaScript.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | \"Cuando toco…\" en ScratchJr |\n| 🧭 [Exploradores](/niveles/exploradores) | Teclas, clics y bandera verde |\n| 💡 [Inventores](/niveles/inventores) | Botones de la micro:bit |\n| 🚀 [Creadores](/niveles/creadores) | Eventos en páginas web |\n\n## 🎯 Misiones donde lo usas\n[S08 · Cuando toco al gato](/misiones/semillas/s08-cuando-toco-al-gato) · [S14 · La carrera](/misiones/semillas/s14-la-carrera) · [E04 · Muévete con flechas](/misiones/exploradores/e04-muevete-con-flechas) · [I18 · Botones y luces](/misiones/inventores/i18-botones-y-luces) · [C15 · Eventos en la página](/misiones/creadores/c15-eventos-en-la-pagina)\n\n## 🔗 Relacionado\n[Mensajes entre personajes](/conceptos/mensaje)"
+  },
+  {
+    "id": "funcion",
+    "title": "🧩 Función",
+    "description": "Función: un bloque que tú inventas",
+    "body": "# 🧩 Función\n\n## 🧒 Para niños\nUna **función** es un grupo de instrucciones con nombre que puedes usar muchas veces. ¡Es como inventar tu propio bloque!\n\n## 🏠 En la vida diaria\n\"Poner la mesa\" es una función: en realidad son muchos pasos (platos, cubiertos, vasos), pero le damos un solo nombre.\n\n> 👩‍👧 **Para el adulto**\n>\n> Evita repetir código y ordena el programa. Scratch: \"Crear un bloque\". Python: `def`. Con parámetros, la función se adapta (dibujar un cuadrado de cualquier tamaño).\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Patrones con nombre |\n| 🧭 [Exploradores](/niveles/exploradores) | Mis bloques |\n| 💡 [Inventores](/niveles/inventores) | Bloques con parámetros y `def` |\n| 🚀 [Creadores](/niveles/creadores) | Módulos y bibliotecas |\n\n## 🎯 Misiones donde lo usas\n[E17 · Mi primer bloque](/misiones/exploradores/e17-mi-primer-bloque) · [I03 · Bloques con parámetros](/misiones/inventores/i03-bloques-con-parametros) · [I13 · Funciones con def](/misiones/inventores/i13-funciones-def) · [C04 · Funciones y módulos](/misiones/creadores/c04-funciones-y-modulos)\n\n## 🔗 Relacionado\n[Bucle (repetir)](/conceptos/bucle)"
+  },
+  {
+    "id": "git",
+    "title": "🌳 Control de versiones (Git)",
+    "description": "Control de versiones (Git)",
+    "body": "# 🌳 Control de versiones (Git)\n\n## 🧒 Para niños\n**Git** guarda la historia de un proyecto: cada cambio queda registrado y puedes volver atrás si algo sale mal. También sirve para trabajar en equipo.\n\n## 🏠 En la vida diaria\nGuardar partidas en un videojuego: si pierdes, vuelves a una partida guardada.\n\n> 👩‍👧 **Para el adulto**\n>\n> Nivel Creadores. Se puede empezar con Git local; publicar en plataformas en línea requiere cuenta y cuidado con la privacidad.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🚀 [Creadores](/niveles/creadores) | Git y colaboración |\n\n## 🎯 Misiones donde lo usas\n[C19 · Control de versiones con Git](/misiones/creadores/c19-git) · [C20 · Colaborar en un proyecto](/misiones/creadores/c20-colaborar)\n\n## 🔗 Relacionado\n[Hacer un proyecto](/conceptos/proyecto)"
+  },
+  {
+    "id": "ia",
+    "title": "🤖 Inteligencia artificial",
+    "description": "Inteligencia artificial",
+    "body": "# 🤖 Inteligencia artificial\n\n## 🧒 Para niños\nLa **inteligencia artificial (IA)** son programas que **aprenden de muchos ejemplos** para reconocer cosas o generar textos e imágenes. No piensan como las personas y **a veces se equivocan** o inventan cosas.\n\n## 🏠 En la vida diaria\nSi ves miles de fotos de perros, aprendes a reconocer un perro. La IA hace algo parecido con muchísimos datos.\n\n> 👩‍👧 **Para el adulto**\n>\n> Mensajes clave: la IA aprende de datos (y de sus sesgos), puede equivocarse con seguridad, hay que verificar lo que dice y no compartir datos personales con ella. En Creadores: usarla como ayudante y citarla.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 💡 [Inventores](/niveles/inventores) | ¿Qué es la IA? |\n| 🚀 [Creadores](/niveles/creadores) | La IA como herramienta |\n\n## 🎯 Misiones donde lo usas\n[I22 · ¿Qué es la IA?](/misiones/inventores/i22-que-es-la-ia) · [C21 · La IA como herramienta](/misiones/creadores/c21-ia-como-herramienta)\n\n## 🔗 Relacionado\n[Privacidad y seguridad](/conceptos/privacidad) · [Datos y archivos](/conceptos/datos)"
+  },
+  {
+    "id": "internet",
+    "title": "📡 Internet",
+    "description": "Internet",
+    "body": "# 📡 Internet\n\n## 🧒 Para niños\n**Internet** es una enorme red de computadores conectados que se envían mensajes en pedacitos llamados **paquetes**.\n\n## 🏠 En la vida diaria\nEl correo: una carta viaja por varias oficinas hasta llegar a su destino.\n\n> 👩‍👧 **Para el adulto**\n>\n> Conceptos: servidor, navegador, dirección, paquetes. Enlaza con privacidad: lo que se sube a internet es difícil de borrar.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 💡 [Inventores](/niveles/inventores) | ¿Cómo funciona internet? |\n| 🚀 [Creadores](/niveles/creadores) | La web por dentro |\n\n## 🎯 Misiones donde lo usas\n[I21 · ¿Cómo funciona internet?](/misiones/inventores/i21-como-funciona-internet)\n\n## 🔗 Relacionado\n[La web](/conceptos/web) · [Privacidad y seguridad](/conceptos/privacidad)"
+  },
+  {
+    "id": "lista",
+    "title": "📋 Lista",
+    "description": "Lista: muchas cosas en un solo lugar",
+    "body": "# 📋 Lista\n\n## 🧒 Para niños\nUna **lista** guarda **muchas cosas en orden** en una sola variable: los nombres de los jugadores, las palabras de un juego.\n\n## 🏠 En la vida diaria\nLa lista del mercado: muchas cosas, una debajo de otra.\n\n> 👩‍👧 **Para el adulto**\n>\n> Scratch tiene listas en \"Variables\"; en Python `frutas = [\"mango\", \"lulo\"]`. Luego se aprende a recorrerlas con bucles.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Clasificar objetos |\n| 🧭 [Exploradores](/niveles/exploradores) | Listas en Scratch |\n| 💡 [Inventores](/niveles/inventores) | Listas en Python |\n| 🚀 [Creadores](/niveles/creadores) | Diccionarios y datos |\n\n## 🎯 Misiones donde lo usas\n[I02 · Listas](/misiones/inventores/i02-listas) · [I14 · Listas en Python](/misiones/inventores/i14-listas-en-python) · [C03 · Listas y diccionarios](/misiones/creadores/c03-listas-y-diccionarios)\n\n## 🔗 Relacionado\n[Variable](/conceptos/variable) · [Bucle (repetir)](/conceptos/bucle)"
+  },
+  {
+    "id": "mensaje",
+    "title": "📨 Mensajes entre personajes",
+    "description": "Mensajes entre personajes",
+    "body": "# 📨 Mensajes entre personajes\n\n## 🧒 Para niños\nLos personajes de un programa pueden **enviarse mensajes**: uno dice \"¡ahora tú!\" y el otro empieza a moverse.\n\n## 🏠 En la vida diaria\nEn un juego de relevos, cuando te pasan el testigo, sales a correr.\n\n> 👩‍👧 **Para el adulto**\n>\n> Sirve para coordinar varios objetos (escenas, diálogos). En Scratch: \"enviar mensaje\" y \"al recibir\".\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Dos personajes que conversan |\n| 🧭 [Exploradores](/niveles/exploradores) | Historias con escenas |\n| 💡 [Inventores](/niveles/inventores) | Cambiar de nivel en un juego |\n| 🚀 [Creadores](/niveles/creadores) | Comunicación entre partes de un programa |\n\n## 🎯 Misiones donde lo usas\n[S10 · Dos amigos conversan](/misiones/semillas/s10-dos-amigos-conversan) · [E10 · Mensajes](/misiones/exploradores/e10-mensajes)\n\n## 🔗 Relacionado\n[Evento](/conceptos/evento)"
+  },
+  {
+    "id": "pensamiento-computacional",
+    "title": "Pensamiento computacional",
+    "description": "Pensamiento computacional: pensar como programador",
+    "body": "# 🧠 Pensamiento computacional\n\n## 🧒 Para niños\nPensar como programador es: **dividir** un problema grande en pequeños, **encontrar patrones**, **quedarse con lo importante** y **escribir los pasos** para resolverlo.\n\n## 🏠 En la vida diaria\nOrdenar tu cuarto: divides (ropa, juguetes, libros), ves patrones (todo lo que va en el cajón), y sigues pasos.\n\n> 👩‍👧 **Para el adulto**\n>\n> Cuatro pilares: descomposición, reconocimiento de patrones, abstracción y algoritmos (más la depuración). Sirven fuera de la programación. Referencias: ISTE (https://www.iste.org/standards/computational-thinking-competencies).\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Juegos sin pantalla |\n| 🧭 [Exploradores](/niveles/exploradores) | Planear un juego |\n| 💡 [Inventores](/niveles/inventores) | Diseñar algoritmos |\n| 🚀 [Creadores](/niveles/creadores) | Resolver problemas reales |\n\n## 🎯 Misiones donde lo usas\n\n\n## 🔗 Relacionado\n[Algoritmo](/conceptos/algoritmo) · [Depuración](/conceptos/depuracion)"
+  },
+  {
+    "id": "privacidad",
+    "title": "🛡️ Privacidad y seguridad",
+    "description": "Privacidad y seguridad",
+    "body": "# 🛡️ Privacidad y seguridad\n\n## 🧒 Para niños\nTu **información personal** (nombre completo, dirección, colegio, fotos) es tuya. En internet no se comparte, y si algo te incomoda, **se lo cuentas a un adulto**.\n\n## 🏠 En la vida diaria\nNo le das las llaves de tu casa a un desconocido; tampoco tus datos.\n\n> 👩‍👧 **Para el adulto**\n>\n> Ver [Seguridad digital](/guia-adultos/seguridad-digital) y [Ciudadanía digital](/ciudadania-digital). Temas por nivel: pedir ayuda (5–7), no compartir datos y respeto (8–10), contraseñas (11–13), huella digital e IA (14+).\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Seguros en internet |\n| 🧭 [Exploradores](/niveles/exploradores) | Ciudadanos digitales |\n| 💡 [Inventores](/niveles/inventores) | Contraseñas |\n| 🚀 [Creadores](/niveles/creadores) | Huella digital y ética |\n\n## 🎯 Misiones donde lo usas\n[S15 · Seguros en internet](/misiones/semillas/s15-seguros-en-internet) · [E19 · Ciudadanos digitales](/misiones/exploradores/e19-ciudadanos-digitales) · [I23 · Contraseñas y privacidad](/misiones/inventores/i23-contrasenas-y-privacidad) · [C22 · Ética y huella digital](/misiones/creadores/c22-etica-y-huella-digital)\n\n## 🔗 Relacionado\n[Internet](/conceptos/internet) · [Derechos de autor y remix](/conceptos/derechos-de-autor)"
+  },
+  {
+    "id": "programa",
+    "title": "💻 ¿Qué es un programa?",
+    "description": "Qué es un programa: instrucciones que sigue un computador",
+    "body": "# 💻 ¿Qué es un programa?\n\n## 🧒 Para niños\nUn **programa** es una lista de instrucciones que le dice a un computador (o a un robot, o a un celular) **exactamente** qué hacer. El computador es muy rápido, pero no piensa: hace solo lo que dice el programa.\n\n## 🏠 En la vida diaria\nUna receta de cocina es como un programa: pasos en orden para hacer una arepa. Si te saltas un paso, ¡la arepa sale mal!\n\n> 👩‍👧 **Para el adulto**\n>\n> Idea clave: los computadores ejecutan instrucciones literalmente. Toda la programación consiste en escribir instrucciones precisas. En bloques (ScratchJr, Scratch) se arrastran piezas; en texto (Python, JavaScript) se escriben.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Robot humano, ScratchJr |\n| 🧭 [Exploradores](/niveles/exploradores) | Guiones de Scratch |\n| 💡 [Inventores](/niveles/inventores) | Primer programa en Python |\n| 🚀 [Creadores](/niveles/creadores) | Programas estructurados en Python y JavaScript |\n\n## 🎯 Misiones donde lo usas\n[S06 · Mi primer personaje](/misiones/semillas/s06-mi-primer-personaje) · [E01 · Hola, Scratch](/misiones/exploradores/e01-hola-scratch) · [I07 · De bloques a texto](/misiones/inventores/i07-de-bloques-a-texto) · [C01 · Repaso rápido de Python](/misiones/creadores/c01-repaso-rapido-de-python) · [C14 · JavaScript básico](/misiones/creadores/c14-javascript-basico)\n\n## 🔗 Relacionado\n[Secuencia](/conceptos/secuencia) · [Algoritmo](/conceptos/algoritmo)"
+  },
+  {
+    "id": "proyecto",
+    "title": "🏗️ Hacer un proyecto",
+    "description": "Hacer un proyecto",
+    "body": "# 🏗️ Hacer un proyecto\n\n## 🧒 Para niños\nUn **proyecto** es algo que tú inventas y construyes: un juego, un cuento, una página. Se hace en pasos: **imaginar → planear → construir → probar → compartir → mejorar**.\n\n## 🏠 En la vida diaria\nConstruir un fuerte con cojines: imaginas cómo será, juntas cojines, lo armas, lo pruebas y lo mejoras.\n\n> 👩‍👧 **Para el adulto**\n>\n> Es la espiral del aprendizaje creativo (MIT). Ayude a elegir proyectos pequeños y terminables, y celebre la presentación.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Cuento animado |\n| 🧭 [Exploradores](/niveles/exploradores) | Mi videojuego |\n| 💡 [Inventores](/niveles/inventores) | Juegos, placa o programa |\n| 🚀 [Creadores](/niveles/creadores) | Proyectos publicables |\n\n## 🎯 Misiones donde lo usas\n[S11 · Mi cuento animado](/misiones/semillas/s11-mi-cuento-animado) · [S16 · Gran estreno](/misiones/semillas/s16-gran-estreno) · [E20 · Mi videojuego](/misiones/exploradores/e20-mi-videojuego) · [I06 · Juego de plataformas](/misiones/inventores/i06-juego-de-plataformas) · [I16 · Aventura de texto](/misiones/inventores/i16-aventura-de-texto) · [I20 · Juego con la placa](/misiones/inventores/i20-juego-con-la-placa) · [I24 · Proyecto final de Inventores](/misiones/inventores/i24-proyecto-final-inventores) · [C08 · Proyecto: gestor de tareas](/misiones/creadores/c08-gestor-de-tareas) · [C09 · Juego 2D](/misiones/creadores/c09-juego-2d) · [C16 · Juego en el navegador](/misiones/creadores/c16-juego-en-el-navegador) · [C18 · Proyecto: mi sitio](/misiones/creadores/c18-mi-sitio) · [C23 · Caminos en tecnología](/misiones/creadores/c23-caminos-en-tecnologia) · [C24 · Proyecto final de Creadores](/misiones/creadores/c24-proyecto-final-creadores)\n\n## 🔗 Relacionado\n[Algoritmo](/conceptos/algoritmo)"
+  },
+  {
+    "id": "secuencia",
+    "title": "➡️ Secuencia",
+    "description": "Secuencia: instrucciones en orden",
+    "body": "# ➡️ Secuencia\n\n## 🧒 Para niños\nUna **secuencia** son instrucciones **una detrás de otra**. El orden importa: primero te pones las medias y después los zapatos, ¡no al revés!\n\n## 🏠 En la vida diaria\nLavarse los dientes: poner crema en el cepillo → cepillar → enjuagar. Si cambias el orden, no funciona.\n\n> 👩‍👧 **Para el adulto**\n>\n> Es el concepto base. Pregunte siempre \"¿qué pasa si cambiamos el orden?\" para que el niño vea que el orden cambia el resultado.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🌱 [Semillas](/niveles/semillas) | Tarjetas de flechas, bloques de ScratchJr |\n| 🧭 [Exploradores](/niveles/exploradores) | Bloques uno debajo de otro en Scratch |\n| 💡 [Inventores](/niveles/inventores) | Líneas de Python, tortuga |\n| 🚀 [Creadores](/niveles/creadores) | Flujo de un programa |\n\n## 🎯 Misiones donde lo usas\n[S01 · El robot humano](/misiones/semillas/s01-robot-humano) · [S03 · El mapa del tesoro](/misiones/semillas/s03-mapa-del-tesoro) · [S07 · Camina, salta y gira](/misiones/semillas/s07-camina-salta-gira) · [E02 · El gato baila](/misiones/exploradores/e02-el-gato-baila) · [I08 · La tortuga](/misiones/inventores/i08-la-tortuga)\n\n## 🔗 Relacionado\n[Bucle (repetir)](/conceptos/bucle) · [Algoritmo](/conceptos/algoritmo)"
+  },
+  {
+    "id": "sensor",
+    "title": "🌡️ Sensores",
+    "description": "Sensores",
+    "body": "# 🌡️ Sensores\n\n## 🧒 Para niños\nUn **sensor** es como un sentido de la máquina: mide la luz, la temperatura, el movimiento…\n\n## 🏠 En la vida diaria\nLas puertas automáticas del supermercado tienen un sensor que \"ve\" cuando llegas.\n\n> 👩‍👧 **Para el adulto**\n>\n> La micro:bit trae sensores de luz, temperatura, brújula y acelerómetro; el simulador de MakeCode permite probarlos sin placa.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 💡 [Inventores](/niveles/inventores) | Sensores de la micro:bit |\n\n## 🎯 Misiones donde lo usas\n[I19 · Sensores](/misiones/inventores/i19-sensores)\n\n## 🔗 Relacionado\n[Entradas y salidas](/conceptos/entrada-salida)"
+  },
+  {
+    "id": "variable",
+    "title": "📦 Variable",
+    "description": "Variable: una caja para guardar información",
+    "body": "# 📦 Variable\n\n## 🧒 Para niños\nUna **variable** es como una **caja con nombre** donde el programa guarda algo que puede cambiar: los puntos, las vidas, tu nombre.\n\n## 🏠 En la vida diaria\nEl marcador de un partido: empieza en 0 y cambia cada vez que alguien hace gol.\n\n> 👩‍👧 **Para el adulto**\n>\n> Las variables tienen nombre y valor. En Scratch se crean en \"Variables\"; en Python con `puntos = 0`. Pregunte qué información necesita \"recordar\" el juego.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🧭 [Exploradores](/niveles/exploradores) | Puntaje y vidas |\n| 💡 [Inventores](/niveles/inventores) | Tipos de datos en Python |\n| 🚀 [Creadores](/niveles/creadores) | Textos, números, listas y diccionarios |\n\n## 🎯 Misiones donde lo usas\n[E08 · Puntaje](/misiones/exploradores/e08-puntaje) · [E14 · Vidas y fin del juego](/misiones/exploradores/e14-vidas-y-fin-del-juego) · [I04 · Gravedad y saltos](/misiones/inventores/i04-gravedad-y-saltos) · [I10 · Variables e input](/misiones/inventores/i10-variables-e-input) · [C02 · Cadenas de texto](/misiones/creadores/c02-cadenas-de-texto)\n\n## 🔗 Relacionado\n[Lista](/conceptos/lista) · [Condicional (si… entonces)](/conceptos/condicional)"
+  },
+  {
+    "id": "web",
+    "title": "🌐 La web",
+    "description": "La web",
+    "body": "# 🌐 La web\n\n## 🧒 Para niños\nUna **página web** se hace con tres lenguajes: **HTML** (lo que hay), **CSS** (cómo se ve) y **JavaScript** (qué hace).\n\n## 🏠 En la vida diaria\nUna casa: HTML son las paredes, CSS la pintura y los muebles, JavaScript la electricidad que hace funcionar las cosas.\n\n> 👩‍👧 **Para el adulto**\n>\n> Se puede practicar en el navegador sin instalar nada (VS Code para la web). Publicar una página requiere cuidado con la privacidad.\n{.is-warning}\n\n## 🪜 Cómo aparece en cada nivel\n| Nivel | Cómo se trabaja |\n|---|---|\n| 🚀 [Creadores](/niveles/creadores) | HTML, CSS, JavaScript y publicar |\n\n## 🎯 Misiones donde lo usas\n[C11 · HTML: la estructura](/misiones/creadores/c11-html) · [C12 · CSS: el estilo](/misiones/creadores/c12-css) · [C13 · Diseñar para celular](/misiones/creadores/c13-disenar-para-celular) · [C17 · Publicar una página](/misiones/creadores/c17-publicar-una-pagina)\n\n## 🔗 Relacionado\n[Internet](/conceptos/internet)"
+  }
+]

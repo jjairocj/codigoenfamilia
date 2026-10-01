@@ -1,0 +1,45 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String         @id @default(uuid())
+  email        String         @unique
+  passwordHash String
+  familyName   String         @default("Familia Exploradora")
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  children     ChildProfile[]
+
+  @@map("users")
+}
+
+model ChildProfile {
+  id           String         @id @default(uuid())
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  alias        String
+  currentLevel String         @default("semillas")
+  avatar       String         @default("🌱")
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  stamps       MissionStamp[]
+
+  @@map("child_profiles")
+}
+
+model MissionStamp {
+  id          String       @id @default(uuid())
+  childId     String
+  child       ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  missionCode String       // ej. "S01", "E05", "I12"
+  completedAt DateTime     @default(now())
+  notes       String?
+
+  @@unique([childId, missionCode])
+  @@map("mission_stamps")
+}
