@@ -110,6 +110,12 @@ class SensorySound {
       osc.stop(now + 0.12);
     } catch {}
   }
+
+  // Aliases for convenience
+  click() { this.playWoodClick(); }
+  stamp() { this.playStampFanfare(); }
+  chime() { this.playStarChime(); }
+  bump() { this.playGentleBump(); }
 }
 
 export const sound = new SensorySound();

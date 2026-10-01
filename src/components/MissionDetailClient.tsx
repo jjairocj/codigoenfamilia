@@ -1,20 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { usePassport } from "@/context/PassportContext";
 import { sound } from "@/lib/sound";
 import confetti from "canvas-confetti";
 import {
   Star,
+  CheckCircle2,
   ArrowLeft,
   ArrowRight,
-  HeartHandshake,
-  Hand,
-  Smartphone,
+  Clock,
   Laptop,
-  CheckCircle2,
+  Smartphone,
+  Hand,
+  HeartHandshake,
+  CheckSquare,
+  Square,
+  Sparkles,
+  HelpCircle,
   Award,
+  AlertCircle,
+  MessageCircle,
 } from "lucide-react";
 
 interface Mission {
@@ -28,7 +35,10 @@ interface Mission {
   adultBox?: string;
 }
 
-const LEVEL_INFO: Record<string, { label: string; age: string; color: string; badge: string }> = {
+const LEVEL_INFO: Record<
+  string,
+  { label: string; age: string; color: string; badge: string }
+> = {
   semillas: {
     label: "Semillas",
     age: "4–6 años",
@@ -55,15 +65,139 @@ const LEVEL_INFO: Record<string, { label: string; age: string; color: string; ba
   },
 };
 
-// Clean raw Wiki.js markdown tags
-function cleanMarkdown(text: string): string {
-  if (!text) return "";
-  return text
-    .replace(/\{(\.is-[a-z]+)\}/g, "")
-    .replace(/^>\s*/gm, "")
-    .replace(/---\s*/g, "")
+/**
+ * Rich FormattedText component
+ * Replaces **bold**, *italic*, `code`, and [links](url) with styled React elements.
+ */
+function FormattedText({ text }: { text: string }) {
+  if (!text) return null;
+
+  // Split text by markdown tokens: **bold**, `code`, [link](url)
+  const regex = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|\*[^*]+\*)/g;
+  const parts = text.split(regex);
+
+  return (
+    <span>
+      {parts.map((part, index) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong
+              key={index}
+              className="font-bold text-slate-900 bg-amber-100/60 px-1 py-0.5 rounded"
+            >
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        if (part.startsWith("*") && part.endsWith("*")) {
+          return (
+            <em key={index} className="italic text-slate-800">
+              {part.slice(1, -1)}
+            </em>
+          );
+        }
+        if (part.startsWith("`") && part.endsWith("`")) {
+          return (
+            <code
+              key={index}
+              className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-900 font-mono text-xs border border-amber-200"
+            >
+              {part.slice(1, -1)}
+            </code>
+          );
+        }
+        const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (linkMatch) {
+          const [, linkText, linkUrl] = linkMatch;
+          const isInternal = linkUrl.startsWith("/");
+          return isInternal ? (
+            <Link
+              key={index}
+              href={linkUrl}
+              className="text-amber-800 font-bold underline underline-offset-2 hover:text-amber-950 transition-colors"
+            >
+              {linkText}
+            </Link>
+          ) : (
+            <a
+              key={index}
+              href={linkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-800 font-bold underline underline-offset-2 hover:text-amber-950 transition-colors"
+            >
+              {linkText}
+            </a>
+          );
+        }
+        return <span key={index}>{part}</span>;
+      })}
+    </span>
+  );
+}
+
+/**
+ * Parses markdown body into clean dictionary of sections
+ */
+function parseMissionBody(body: string) {
+  if (!body) return {};
+  // Strip top quote and H1 if present
+  let clean = body
+    .replace(/^>\s*🎯[^\n]+\n+(?:\{[^\}]+\}\n+)?/m, "")
+    .replace(/^#\s+[^\n]+\n+/m, "")
+    .replace(/\n---\n+>\s*👩‍👧\s*\*\*Para el adulto\*\*[\s\S]*$/, "")
     .replace(/⬅️\s*\[Volver al nivel[^\]]+\]\([^)]+\)/g, "")
+    .replace(/\{(\.is-[a-z]+)\}/g, "")
     .trim();
+
+  const sections: Record<string, string> = {};
+  let currentKey = "intro";
+  const buffer: string[] = [];
+
+  for (const line of clean.split("\n")) {
+    const match = line.match(/^##\s+(.+)$/);
+    if (match) {
+      if (buffer.length > 0) {
+        sections[currentKey] = buffer.join("\n").trim();
+        buffer.length = 0;
+      }
+      currentKey = match[1].trim();
+    } else {
+      buffer.push(line);
+    }
+  }
+  if (buffer.length > 0) {
+    sections[currentKey] = buffer.join("\n").trim();
+  }
+
+  return sections;
+}
+
+/**
+ * Parses adult box markdown into structured pedagogical entries
+ */
+function parseAdultBox(text?: string) {
+  if (!text) return null;
+  const clean = text
+    .replace(/^>\s*/gm, "")
+    .replace(/\{[^\}]+\}/g, "")
+    .replace(/⬅️\s*\[Volver al nivel[^\]]+\]\([^)]+\)/g, "")
+    .replace(/^#+.*$/gm, "")
+    .trim();
+
+  const entries: { title: string; content: string }[] = [];
+  const regex = /\*\*([^*]+)\:\*\*\s*([\s\S]*?)(?=(\*\*[^*]+\:\*\*|$))/g;
+  let match;
+
+  while ((match = regex.exec(clean)) !== null) {
+    const title = match[1].trim();
+    const content = match[2].trim();
+    if (title && content) {
+      entries.push({ title, content });
+    }
+  }
+
+  return entries.length > 0 ? entries : null;
 }
 
 export default function MissionDetailClient({
@@ -77,117 +211,178 @@ export default function MissionDetailClient({
 }) {
   const { isCompleted, toggleStamp } = usePassport();
   const done = isCompleted(mission.code);
+  const lvl = LEVEL_INFO[mission.level] || LEVEL_INFO.semillas;
 
-  const levelMeta = LEVEL_INFO[mission.level] || LEVEL_INFO.semillas;
-  const isNoScreen = mission.tags.some((t) => t.includes("sin-pantalla") || t.includes("desenchufado"));
-  const isMobile = mission.tags.some((t) => t.includes("celular") || t.includes("scratchjr"));
-  const isComputer = mission.tags.some((t) => t.includes("computador") || t.includes("scratch") || t.includes("python"));
+  // Interactive Checklist State for Materials
+  const [checkedMaterials, setCheckedMaterials] = useState<Record<number, boolean>>({});
 
-  const cleanedBody = cleanMarkdown(mission.body);
-  const cleanedAdultBox = cleanMarkdown(mission.adultBox || "");
-
-  const handleStampClick = () => {
-    if (!done) {
-      sound.playStampFanfare();
-      try {
-        confetti({
-          particleCount: 60,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ["#86efac", "#fde047", "#7dd3fc", "#d8b4fe"],
-        });
-      } catch {}
-    } else {
-      sound.playWoodClick();
-    }
-    toggleStamp(mission.code);
+  const toggleMaterial = (index: number) => {
+    sound.click();
+    setCheckedMaterials((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
   };
 
+  const isNoScreen = mission.tags.some(
+    (t) => t.includes("sin-pantalla") || t.includes("desenchufado")
+  );
+  const isMobile = mission.tags.some(
+    (t) => t.includes("celular") || t.includes("scratchjr")
+  );
+  const isComputer = mission.tags.some(
+    (t) =>
+      t.includes("computador") || t.includes("scratch") || t.includes("python")
+  );
+
+  const sections = useMemo(() => parseMissionBody(mission.body), [mission.body]);
+  const adultEntries = useMemo(() => parseAdultBox(mission.adultBox), [mission.adultBox]);
+
+  const handleStampClick = () => {
+    sound.stamp();
+    toggleStamp(mission.code);
+    if (!done) {
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ["#f59e0b", "#10b981", "#38bdf8", "#ec4899"],
+      });
+    }
+  };
+
+  // Extract materials list from sections
+  const materialsList = useMemo(() => {
+    const raw = sections["🧰 Qué necesitas"] || "";
+    return raw
+      .split("\n")
+      .map((l) => l.replace(/^[-*•]\s*/, "").trim())
+      .filter((l) => l.length > 0);
+  }, [sections]);
+
+  // Extract steps from sections
+  const stepsList = useMemo(() => {
+    const raw = sections["👣 Paso a paso"] || "";
+    const steps: { number: number; text: string }[] = [];
+    const lines = raw.split("\n");
+    let currentStep: { number: number; text: string } | null = null;
+
+    for (const line of lines) {
+      const stepMatch = line.match(/^(\d+)\.\s*(.+)$/);
+      if (stepMatch) {
+        if (currentStep) steps.push(currentStep);
+        currentStep = {
+          number: parseInt(stepMatch[1], 10),
+          text: stepMatch[2].trim(),
+        };
+      } else if (currentStep && line.trim()) {
+        currentStep.text += " " + line.trim();
+      }
+    }
+    if (currentStep) steps.push(currentStep);
+    return steps;
+  }, [sections]);
+
   return (
-    <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8 overflow-x-hidden">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
       
-      {/* Top Breadcrumb & Back */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-        <div className="flex flex-wrap items-center gap-1.5 text-slate-500">
-          <Link href="/misiones" className="hover:text-amber-800 font-semibold flex items-center gap-1">
-            <ArrowLeft className="w-3.5 h-3.5" /> Misiones
-          </Link>
-          <span>/</span>
-          <span className="font-bold text-slate-700 capitalize">
-            Nivel {levelMeta.label}
-          </span>
-          <span>/</span>
-          <span className="text-amber-700 font-bold">{mission.code}</span>
-        </div>
-
-        <Link
-          href="/pasaporte"
-          className="px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 font-bold flex items-center gap-1.5 shadow-2xs hover:bg-amber-200 transition-colors shrink-0"
-        >
-          <Award className="w-3.5 h-3.5 text-amber-700" />
-          <span>Ver mi Pasaporte</span>
+      {/* Breadcrumb Navigation */}
+      <nav aria-label="Ruta de navegación" className="flex items-center gap-1.5 text-xs text-slate-500 font-medium overflow-x-auto pb-1 no-scrollbar">
+        <Link href="/" className="hover:text-amber-800 transition-colors shrink-0">
+          Inicio
         </Link>
-      </div>
+        <span>/</span>
+        <Link href="/misiones" className="hover:text-amber-800 transition-colors shrink-0">
+          Misiones
+        </Link>
+        <span>/</span>
+        <Link
+          href={`/misiones?nivel=${mission.level}`}
+          className="hover:text-amber-800 transition-colors shrink-0 capitalize"
+        >
+          {lvl.label}
+        </Link>
+        <span>/</span>
+        <span className="text-slate-800 font-bold shrink-0">{mission.code}</span>
+      </nav>
 
-      {/* Main Mission Hero Card */}
-      <div className={`wood-card p-5 sm:p-8 bg-gradient-to-r ${levelMeta.color} border-2`}>
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5 sm:gap-6">
-          <div className="space-y-2.5 sm:space-y-3 flex-1">
-            
-            {/* Badges */}
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span className="font-fun text-xs sm:text-sm font-extrabold px-3 py-1 rounded-xl bg-white text-slate-800 border border-slate-200 shadow-2xs">
+      {/* Hero Header Card */}
+      <div
+        className={`wood-card p-5 sm:p-8 bg-gradient-to-br ${lvl.color} border-2 shadow-sm`}
+      >
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          
+          <div className="space-y-3 flex-1">
+            {/* Badges Bar */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-fun text-xs font-bold px-3 py-1 rounded-full bg-white text-slate-800 border border-slate-200 shadow-2xs">
                 Misión {mission.code}
               </span>
-
-              <span className={`text-xs font-bold px-2.5 py-1 rounded-xl border ${levelMeta.badge}`}>
-                Nivel {levelMeta.label} ({levelMeta.age})
+              <span
+                className={`font-fun text-xs font-bold px-3 py-1 rounded-full border ${lvl.badge}`}
+              >
+                Nivel {lvl.label} ({lvl.age})
               </span>
 
               {isNoScreen && (
-                <span className="text-xs font-bold px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 flex items-center gap-1">
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-200 flex items-center gap-1">
                   <Hand className="w-3.5 h-3.5" /> Sin pantalla
                 </span>
               )}
               {isMobile && (
-                <span className="text-xs font-bold px-2.5 py-1 rounded-xl bg-sky-100 text-sky-900 border border-sky-300 flex items-center gap-1">
-                  <Smartphone className="w-3.5 h-3.5" /> Celular
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-sky-100 text-sky-900 border border-sky-200 flex items-center gap-1">
+                  <Smartphone className="w-3.5 h-3.5" /> En Celular
                 </span>
               )}
               {isComputer && (
-                <span className="text-xs font-bold px-2.5 py-1 rounded-xl bg-purple-100 text-purple-900 border border-purple-300 flex items-center gap-1">
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-100 text-purple-900 border border-purple-200 flex items-center gap-1">
                   <Laptop className="w-3.5 h-3.5" /> Computador
                 </span>
               )}
+
+              <span className="text-xs text-slate-600 font-semibold flex items-center gap-1 bg-white/70 px-2.5 py-1 rounded-full border border-slate-200/60">
+                <Clock className="w-3.5 h-3.5 text-slate-400" /> 20–30 min
+              </span>
             </div>
 
-            <h1 className="font-fun text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 break-words">
-              {mission.title}
+            {/* Clean Title */}
+            <h1 className="font-fun text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              {mission.title.replace(/^[A-Z0-9]+ · /, "")}
             </h1>
-            <p className="text-xs sm:text-base text-slate-700 leading-relaxed max-w-3xl">
+            <p className="text-xs sm:text-base text-slate-700 leading-relaxed max-w-3xl font-medium">
               {mission.description}
             </p>
           </div>
 
-          {/* Big Interactive Stamp Action Button (Full width on mobile) */}
+          {/* Stamp Action Button */}
           <div className="shrink-0 w-full md:w-auto">
             <button
               onClick={handleStampClick}
-              className={`w-full md:w-auto wood-btn px-5 py-3.5 sm:py-4 rounded-2xl flex items-center justify-center gap-3 transition-all ${
+              className={`w-full md:w-auto wood-btn px-6 py-4 rounded-2xl flex items-center justify-center gap-3 transition-all ${
                 done
                   ? "bg-amber-300 hover:bg-amber-400 text-amber-950 border-amber-500 shadow-md scale-102"
                   : "bg-white hover:bg-amber-50 text-slate-800 border-amber-300 shadow-sm"
               }`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-lg ${done ? "bg-amber-400" : "bg-amber-100"}`}>
-                <Star className={`w-5 h-5 ${done ? "fill-amber-950 text-amber-950" : "text-amber-600"}`} />
+              <div
+                className={`w-9 h-9 rounded-full flex items-center justify-center text-lg ${
+                  done ? "bg-amber-400" : "bg-amber-100"
+                }`}
+              >
+                <Star
+                  className={`w-5 h-5 ${
+                    done ? "fill-amber-950 text-amber-950" : "text-amber-600"
+                  }`}
+                />
               </div>
               <div className="text-left">
                 <div className="font-fun text-xs sm:text-sm font-bold">
                   {done ? "¡Misión Cumplida!" : "Completar Misión"}
                 </div>
                 <div className="text-[10px] opacity-80">
-                  {done ? "Sello estampado en tu Pasaporte" : "Toca aquí para ganar tu sello ⭐"}
+                  {done
+                    ? "Sello estampado en tu Pasaporte"
+                    : "Toca aquí para ganar tu sello ⭐"}
                 </div>
               </div>
             </button>
@@ -196,63 +391,266 @@ export default function MissionDetailClient({
         </div>
       </div>
 
-      {/* Grid Layout: Main Mission Content + Adult Guide */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      {/* Main Grid: Left child/family journey | Right adult guide */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
         
-        {/* Left Column: Mission Content for Child & Family (7 cols) */}
-        <div className="lg:col-span-7 space-y-5">
-          <div className="wood-card p-4 sm:p-7 bg-white border-2 border-slate-200/80 space-y-4">
-            <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-              <span className="text-xl">🗺️</span>
-              <h2 className="font-fun text-base sm:text-lg font-bold text-slate-800">
-                Guía Paso a Paso para la Familia
-              </h2>
-            </div>
+        {/* LEFT COLUMN: Clean Visual Mission Sections */}
+        <div className="lg:col-span-7 space-y-6">
 
-            <div className="text-xs sm:text-sm text-slate-700 whitespace-pre-line leading-relaxed space-y-3">
-              {cleanedBody}
-            </div>
-
-            {/* Bottom Stamp reminder */}
-            <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-xs text-slate-500">
-                <CheckCircle2 className={`w-4 h-4 ${done ? "text-emerald-500" : "text-slate-300"}`} />
-                <span>Estado: {done ? "Estampada en tu pasaporte" : "Aún sin estampar"}</span>
+          {/* 1. TU MISIÓN */}
+          {sections["🗺️ Tu misión"] && (
+            <div className="wood-card p-5 sm:p-7 bg-white border-2 border-amber-200/70 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 pb-2 border-b border-amber-100">
+                <span className="text-2xl">🗺️</span>
+                <h2 className="font-fun text-base sm:text-lg font-bold text-slate-800">
+                  Tu Misión de Hoy
+                </h2>
               </div>
-              <button
-                onClick={handleStampClick}
-                className={`wood-btn text-xs py-2 px-4 w-full sm:w-auto ${
-                  done
-                    ? "bg-slate-100 text-slate-600 border-slate-300"
-                    : "bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold"
-                }`}
-              >
-                <Star className={`w-4 h-4 ${done ? "fill-slate-600" : "fill-amber-950"}`} />
-                {done ? "Desmarcar Sello" : "¡Marcar Sello Cumplido!"}
-              </button>
+              <div className="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+                {sections["🗺️ Tu misión"].split("\n\n").map((para, i) => (
+                  <p key={i}>
+                    <FormattedText text={para} />
+                  </p>
+                ))}
+              </div>
             </div>
+          )}
+
+          {/* 2. QUÉ NECESITAS (Interactive Checklist) */}
+          {materialsList.length > 0 && (
+            <div className="wood-card p-5 sm:p-7 bg-white border-2 border-sky-200/80 shadow-xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-sky-100">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">🧰</span>
+                  <h2 className="font-fun text-base sm:text-lg font-bold text-slate-800">
+                    Qué Necesitas en Casa
+                  </h2>
+                </div>
+                <span className="text-[11px] font-semibold text-sky-800 bg-sky-100 px-2.5 py-0.5 rounded-full">
+                  Checklist interactivo
+                </span>
+              </div>
+              <p className="text-xs text-slate-500">
+                Revisa los materiales juntos y marca las casillas a medida que los tengan listos:
+              </p>
+              <div className="space-y-2 pt-1">
+                {materialsList.map((item, idx) => {
+                  const isChecked = !!checkedMaterials[idx];
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => toggleMaterial(idx)}
+                      className={`w-full text-left p-3 rounded-xl border flex items-center gap-3 transition-colors ${
+                        isChecked
+                          ? "bg-emerald-50/70 border-emerald-300 text-slate-800"
+                          : "bg-slate-50/60 hover:bg-sky-50/50 border-slate-200 text-slate-700"
+                      }`}
+                    >
+                      {isChecked ? (
+                        <CheckSquare className="w-5 h-5 text-emerald-600 shrink-0" />
+                      ) : (
+                        <Square className="w-5 h-5 text-slate-400 shrink-0" />
+                      )}
+                      <span
+                        className={`text-xs sm:text-sm leading-snug flex-1 ${
+                          isChecked ? "line-through text-slate-400 font-medium" : "font-medium"
+                        }`}
+                      >
+                        <FormattedText text={item} />
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* 3. PASO A PASO (Numbered Cards) */}
+          {stepsList.length > 0 ? (
+            <div className="wood-card p-5 sm:p-7 bg-white border-2 border-amber-200/80 shadow-xs space-y-4">
+              <div className="flex items-center gap-2 pb-2 border-b border-amber-100">
+                <span className="text-2xl">👣</span>
+                <h2 className="font-fun text-base sm:text-lg font-bold text-slate-800">
+                  Paso a Paso en Familia
+                </h2>
+              </div>
+              <div className="space-y-3 pt-1">
+                {stepsList.map((step) => (
+                  <div
+                    key={step.number}
+                    className="p-3.5 sm:p-4 rounded-2xl bg-amber-50/40 border border-amber-200/60 flex items-start gap-3.5"
+                  >
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-400 text-amber-950 font-fun font-bold flex items-center justify-center shrink-0 text-xs sm:text-sm shadow-2xs">
+                      {step.number}
+                    </div>
+                    <div className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pt-0.5">
+                      <FormattedText text={step.text} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            sections["👣 Paso a paso"] && (
+              <div className="wood-card p-5 sm:p-7 bg-white border-2 border-amber-200/80 shadow-xs space-y-3">
+                <div className="flex items-center gap-2 pb-2 border-b border-amber-100">
+                  <span className="text-2xl">👣</span>
+                  <h2 className="font-fun text-base sm:text-lg font-bold text-slate-800">
+                    Paso a Paso en Familia
+                  </h2>
+                </div>
+                <div className="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+                  <FormattedText text={sections["👣 Paso a paso"]} />
+                </div>
+              </div>
+            )
+          )}
+
+          {/* 4. RETO EXTRA (Golden Bonus Box) */}
+          {sections["🏆 Reto extra"] && (
+            <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-amber-50 to-yellow-100/50 border-2 border-amber-300 shadow-xs space-y-2.5">
+              <div className="flex items-center gap-2 pb-1 border-b border-amber-200">
+                <Award className="w-5 h-5 text-amber-700" />
+                <h3 className="font-fun text-sm sm:text-base font-bold text-amber-950">
+                  🏆 Reto Extra de Exploración
+                </h3>
+              </div>
+              <div className="text-xs sm:text-sm text-amber-950 leading-relaxed font-medium">
+                <FormattedText text={sections["🏆 Reto extra"]} />
+              </div>
+            </div>
+          )}
+
+          {/* 5. SI ALGO NO FUNCIONA (Debugging / Depuración) */}
+          {sections["🐞 Si algo no funciona"] && (
+            <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 shadow-xs space-y-2.5">
+              <div className="flex items-center gap-2 pb-1 border-b border-emerald-200">
+                <AlertCircle className="w-5 h-5 text-emerald-700" />
+                <h3 className="font-fun text-sm sm:text-base font-bold text-emerald-950">
+                  🐞 Si algo no funciona (¡Hora de depurar!)
+                </h3>
+              </div>
+              <div className="text-xs sm:text-sm text-emerald-950 leading-relaxed">
+                <FormattedText text={sections["🐞 Si algo no funciona"]} />
+              </div>
+            </div>
+          )}
+
+          {/* 6. MUÉSTRASELO A TU ADULTO */}
+          {sections["💬 Muéstraselo a tu adulto"] && (
+            <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 shadow-xs space-y-2.5">
+              <div className="flex items-center gap-2 pb-1 border-b border-purple-200">
+                <MessageCircle className="w-5 h-5 text-purple-700" />
+                <h3 className="font-fun text-sm sm:text-base font-bold text-purple-950">
+                  💬 Muéstraselo a tu Familia
+                </h3>
+              </div>
+              <div className="text-xs sm:text-sm text-purple-950 leading-relaxed font-medium">
+                <FormattedText text={sections["💬 Muéstraselo a tu adulto"]} />
+              </div>
+            </div>
+          )}
+
+          {/* Bottom Stamp Button Reminder */}
+          <div className="wood-card p-4 sm:p-5 bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-xs text-slate-600">
+              <CheckCircle2
+                className={`w-5 h-5 ${done ? "text-emerald-500" : "text-slate-300"}`}
+              />
+              <span>
+                {done
+                  ? "¡Esta misión ya está completada en tu pasaporte!"
+                  : "¿Terminaron la misión? Estampa tu sello para avanzar."}
+              </span>
+            </div>
+            <button
+              onClick={handleStampClick}
+              className={`wood-btn text-xs py-2.5 px-5 w-full sm:w-auto font-bold ${
+                done
+                  ? "bg-slate-100 text-slate-600 border-slate-300"
+                  : "bg-amber-400 hover:bg-amber-500 text-amber-950 shadow-xs"
+              }`}
+            >
+              <Star
+                className={`w-4 h-4 ${done ? "fill-slate-600" : "fill-amber-950"}`}
+              />
+              {done ? "Desmarcar Sello" : "¡Marcar Sello Cumplido!"}
+            </button>
           </div>
+
         </div>
 
-        {/* Right Column: Adult Box & Next Steps (5 cols) */}
+        {/* RIGHT COLUMN: Dedicated Pedagogical Adult Companion Guide */}
         <div className="lg:col-span-5 space-y-5">
           
-          {/* Adult Guide Box */}
-          <div className="wood-card p-4 sm:p-6 bg-amber-50/80 border-2 border-amber-300 space-y-2.5">
-            <div className="flex items-center gap-2 pb-2 border-b border-amber-200">
-              <HeartHandshake className="w-5 h-5 text-amber-700" />
-              <h3 className="font-fun text-xs sm:text-sm font-bold text-amber-950">
-                👩‍👧 Para el Adulto Acompañante
-              </h3>
+          <div className="wood-card p-5 sm:p-7 bg-amber-50/90 border-2 border-amber-300 shadow-xs space-y-4">
+            <div className="flex items-center gap-2 pb-3 border-b border-amber-200">
+              <HeartHandshake className="w-6 h-6 text-amber-700 shrink-0" />
+              <div>
+                <h3 className="font-fun text-sm sm:text-base font-bold text-amber-950">
+                  Guía para el Adulto Acompañante
+                </h3>
+                <p className="text-[11px] text-amber-800">
+                  Tu rol es guiar con preguntas, no dar la respuesta.
+                </p>
+              </div>
             </div>
-            
-            <p className="text-xs text-amber-950 leading-relaxed whitespace-pre-line">
-              {cleanedAdultBox || "Acompaña al niño observando su proceso con serenidad. Haz preguntas en lugar de darle la respuesta directa («¿Qué crees que pasará si cambiamos esta orden?»). El error es una pista valiosa para aprender a depurar."}
-            </p>
+
+            {adultEntries && adultEntries.length > 0 ? (
+              <div className="space-y-4">
+                {adultEntries.map((entry, idx) => {
+                  let icon = "💡";
+                  let badgeBg = "bg-amber-100 text-amber-900 border-amber-300";
+
+                  if (entry.title.includes("Objetivo")) {
+                    icon = "🎯";
+                    badgeBg = "bg-emerald-100 text-emerald-900 border-emerald-300";
+                  } else if (entry.title.includes("Antes de empezar")) {
+                    icon = "📋";
+                    badgeBg = "bg-sky-100 text-sky-900 border-sky-300";
+                  } else if (entry.title.includes("Preguntas")) {
+                    icon = "❓";
+                    badgeBg = "bg-purple-100 text-purple-900 border-purple-300";
+                  } else if (entry.title.includes("atasca")) {
+                    icon = "🤝";
+                    badgeBg = "bg-rose-100 text-rose-900 border-rose-300";
+                  } else if (entry.title.includes("Sello")) {
+                    icon = "⭐";
+                    badgeBg = "bg-amber-200 text-amber-950 border-amber-400";
+                  } else if (entry.title.includes("Conceptos")) {
+                    icon = "🧠";
+                    badgeBg = "bg-indigo-100 text-indigo-900 border-indigo-300";
+                  }
+
+                  return (
+                    <div
+                      key={idx}
+                      className="p-3.5 rounded-2xl bg-white/80 border border-amber-200/80 space-y-1.5 shadow-2xs"
+                    >
+                      <div className="flex items-center gap-1.5 font-fun text-xs font-bold text-slate-800">
+                        <span className="text-sm">{icon}</span>
+                        <span className="capitalize">{entry.title}</span>
+                      </div>
+                      <div className="text-xs text-slate-700 leading-relaxed font-medium">
+                        <FormattedText text={entry.content} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-xs text-amber-950 leading-relaxed whitespace-pre-line">
+                Acompaña al niño observando su proceso con serenidad. Haz preguntas
+                en lugar de darle la respuesta directa («¿Qué crees que pasará si
+                cambiamos esta orden?»). El error es una pista valiosa para aprender
+                a depurar.
+              </p>
+            )}
           </div>
 
           {/* Navigation between missions */}
-          <div className="wood-card p-4 sm:p-6 bg-white border-2 border-slate-200 space-y-3">
+          <div className="wood-card p-5 bg-white border-2 border-slate-200 space-y-3">
             <h4 className="font-fun text-[11px] font-bold text-slate-400 uppercase tracking-wider">
               Navegación del Programa
             </h4>
@@ -261,10 +659,10 @@ export default function MissionDetailClient({
               {prevMission ? (
                 <Link
                   href={`/misiones/${prevMission.id}`}
-                  className="flex-1 p-2.5 sm:p-3 rounded-xl bg-slate-50 hover:bg-amber-50 border border-slate-200 text-left transition-colors group"
+                  className="flex-1 p-3 rounded-xl bg-slate-50 hover:bg-amber-50 border border-slate-200 text-left transition-colors group"
                 >
                   <div className="text-[10px] text-slate-400 group-hover:text-amber-800 flex items-center gap-1 font-bold">
-                    <ArrowLeft className="w-3 h-3" /> Anterior
+                    <ArrowLeft className="w-3 h-3" /> Misión Anterior
                   </div>
                   <div className="font-fun text-xs font-bold text-slate-700 truncate mt-0.5">
                     {prevMission.code} · {prevMission.title.replace(/^[A-Z0-9]+ · /, "")}
@@ -277,10 +675,10 @@ export default function MissionDetailClient({
               {nextMission ? (
                 <Link
                   href={`/misiones/${nextMission.id}`}
-                  className="flex-1 p-2.5 sm:p-3 rounded-xl bg-amber-50/60 hover:bg-amber-100/80 border border-amber-200 text-left sm:text-right transition-colors group"
+                  className="flex-1 p-3 rounded-xl bg-amber-50/60 hover:bg-amber-100/80 border border-amber-200 text-left sm:text-right transition-colors group"
                 >
                   <div className="text-[10px] text-amber-800 flex items-center sm:justify-end gap-1 font-bold">
-                    Siguiente <ArrowRight className="w-3 h-3" />
+                    Siguiente Misión <ArrowRight className="w-3 h-3" />
                   </div>
                   <div className="font-fun text-xs font-bold text-amber-950 truncate mt-0.5">
                     {nextMission.code} · {nextMission.title.replace(/^[A-Z0-9]+ · /, "")}
@@ -289,13 +687,13 @@ export default function MissionDetailClient({
               ) : (
                 <Link
                   href="/pasaporte"
-                  className="flex-1 p-2.5 sm:p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-center sm:text-right transition-colors"
+                  className="flex-1 p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-center sm:text-right transition-colors"
                 >
                   <div className="text-[10px] text-emerald-800 font-bold">
                     ¡Fin del Nivel! 🏆
                   </div>
                   <div className="font-fun text-xs font-bold text-emerald-950 truncate mt-0.5">
-                    Ir al Pasaporte
+                    Ver mi Pasaporte
                   </div>
                 </Link>
               )}
