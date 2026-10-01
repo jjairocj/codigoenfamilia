@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePassport } from "@/context/PassportContext";
 import { sound } from "@/lib/sound";
 import confetti from "canvas-confetti";
+import MissionMinigame from "./MissionMinigame";
 import {
   Star,
   CheckCircle2,
@@ -463,6 +464,32 @@ export default function MissionDetailClient({
                   );
                 })}
               </div>
+
+              {/* Descargables y Materiales recomendados */}
+              <div className="pt-3 border-t border-sky-100 flex flex-wrap gap-2 text-xs">
+                <a
+                  href={`/downloads/pasaporte-${mission.level}.pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="wood-btn text-[11px] px-3 py-1.5 bg-sky-100 hover:bg-sky-200 text-sky-900 border-sky-300 font-bold flex items-center gap-1.5"
+                >
+                  <span>📘</span> Pasaporte ({lvl.label})
+                </a>
+                <a
+                  href="/downloads/materiales-sin-pantalla.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="wood-btn text-[11px] px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-950 border-amber-300 font-bold flex items-center gap-1.5"
+                >
+                  <span>✂️</span> Recortables y Fichas (PDF)
+                </a>
+                <Link
+                  href="/descargas"
+                  className="wood-btn text-[11px] px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300 font-bold flex items-center gap-1.5"
+                >
+                  <span>🖨️</span> Ver los 12 PDFs
+                </Link>
+              </div>
             </div>
           )}
 
@@ -506,6 +533,9 @@ export default function MissionDetailClient({
               </div>
             )
           )}
+
+          {/* MINIJUEGO INTERACTIVO DE LA MISIÓN */}
+          <MissionMinigame mission={mission} />
 
           {/* 4. RETO EXTRA (Golden Bonus Box) */}
           {sections["🏆 Reto extra"] && (

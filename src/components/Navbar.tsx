@@ -197,6 +197,57 @@ export default function Navbar() {
                       </div>
                     </div>
                   </Link>
+
+                  <Link
+                    href="/microbit"
+                    className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-indigo-50/80 transition-colors group"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center text-lg shrink-0">
+                      📟
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-slate-800 group-hover:text-indigo-800">
+                        Simulador Micro:bit
+                      </div>
+                      <div className="text-[11px] text-slate-500 leading-tight">
+                        Matriz 5x5 LED y botones A/B
+                      </div>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/binario"
+                    className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-cyan-50/80 transition-colors group"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-cyan-100 text-cyan-800 flex items-center justify-center text-lg shrink-0">
+                      💡
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-slate-800 group-hover:text-cyan-800">
+                        Taller Binario 8-Bits
+                      </div>
+                      <div className="text-[11px] text-slate-500 leading-tight">
+                        Interruptores y retos numéricos
+                      </div>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/python"
+                    className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-amber-50/80 transition-colors group"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-lg shrink-0">
+                      🐍
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-slate-800 group-hover:text-amber-800">
+                        Laboratorio Python
+                      </div>
+                      <div className="text-[11px] text-slate-500 leading-tight">
+                        Recetas interactivas y consola
+                      </div>
+                    </div>
+                  </Link>
                 </div>
               )}
             </div>
@@ -421,6 +472,39 @@ export default function Navbar() {
                 <div>
                   <div className="text-xs font-bold">Laboratorio Scratch</div>
                   <div className="text-[10px] text-slate-500">Bloques visuales interactivos</div>
+                </div>
+              </Link>
+              <Link
+                href="/microbit"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 p-2.5 rounded-xl font-semibold text-slate-800 hover:bg-indigo-50 active:bg-indigo-100"
+              >
+                <span className="text-xl">📟</span>
+                <div>
+                  <div className="text-xs font-bold">Simulador Micro:bit</div>
+                  <div className="text-[10px] text-slate-500">Matriz 5x5 LED y botones A/B</div>
+                </div>
+              </Link>
+              <Link
+                href="/binario"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 p-2.5 rounded-xl font-semibold text-slate-800 hover:bg-cyan-50 active:bg-cyan-100"
+              >
+                <span className="text-xl">💡</span>
+                <div>
+                  <div className="text-xs font-bold">Taller Binario 8-Bits</div>
+                  <div className="text-[10px] text-slate-500">Interruptores y retos numéricos</div>
+                </div>
+              </Link>
+              <Link
+                href="/python"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 p-2.5 rounded-xl font-semibold text-slate-800 hover:bg-amber-50 active:bg-amber-100"
+              >
+                <span className="text-xl">🐍</span>
+                <div>
+                  <div className="text-xs font-bold">Laboratorio Python</div>
+                  <div className="text-[10px] text-slate-500">Recetas de código y consola</div>
                 </div>
               </Link>
             </div>
