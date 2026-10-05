@@ -1,4 +1,5 @@
 import FamilyRoulette from "@/components/FamilyRoulette";
+import GameAnimatedDemo from "@/components/GameAnimatedDemo";
 import { Dice5, HeartHandshake } from "lucide-react";
 
 export const metadata = {
@@ -23,6 +24,9 @@ export default function RuletaPage() {
           ¿Tienen 10 minutos libres después de almorzar o el fin de semana? Giren la ruleta y disfruten de un juego corporal para reírse juntos y ejercitar el pensamiento lógico.
         </p>
       </div>
+
+      {/* Animated Demo Guide */}
+      <GameAnimatedDemo initialGame="ruleta" defaultExpanded={false} />
 
       {/* Main Roulette Component */}
       <div className="py-2 sm:py-6">

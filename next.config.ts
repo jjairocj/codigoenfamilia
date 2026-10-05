@@ -2,8 +2,42 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+        ],
+      },
+    ];
+  },
+
   async redirects() {
     return [
+      {
+        source: "/empezar",
+        destination: "/misiones",
+        permanent: false,
+      },
+      {
+        source: "/codigo-en-familia/:path*",
+        destination: "/:path*",
+        permanent: false,
+      },
+      {
+        source: "/codigo-en-familia",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/guia-adultos/:slug*",
+        destination: "/descargas",
+        permanent: false,
+      },
       {
         source: "/imprimibles",
         destination: "/descargas",
@@ -34,26 +68,18 @@ const nextConfig: NextConfig = {
         destination: "/misiones/:id",
         permanent: false,
       },
-      {
-        source: "/desenchufado/:slug*",
-        destination: "/ruleta",
-        permanent: false,
-      },
-      {
-        source: "/herramientas/scratch",
-        destination: "/scratch",
-        permanent: false,
-      },
-      {
-        source: "/herramientas/microbit",
-        destination: "/microbit",
-        permanent: false,
-      },
-      {
-        source: "/herramientas/python",
-        destination: "/python",
-        permanent: false,
-      },
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
     ];
   },
 };

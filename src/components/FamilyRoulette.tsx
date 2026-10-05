@@ -1,5 +1,6 @@
 "use client";
 
+import { VectorRouletteCenterHub, VectorRouletteWheel } from "@/components/vector/MontessoriVectorGraphics";
 import React, { useState } from "react";
 import { sound } from "@/lib/sound";
 import { Sparkles, Dices, RefreshCw } from "lucide-react";
@@ -91,8 +92,8 @@ export default function FamilyRoulette() {
               background: "conic-gradient(#bae6fd 0deg 60deg, #dcfce7 60deg 120deg, #fef08a 120deg 180deg, #fed7aa 180deg 240deg, #e9d5ff 240deg 300deg, #fbcfe8 300deg 360deg)",
             }}
           >
-            <div className="w-14 h-14 min-[400px]:w-16 min-[400px]:h-16 rounded-full bg-white border-4 border-amber-300 shadow-md flex items-center justify-center text-xl min-[400px]:text-2xl z-10">
-              🎲
+            <div className="w-14 h-14 min-[400px]:w-16 min-[400px]:h-16 rounded-full shadow-lg flex items-center justify-center z-10">
+              <VectorRouletteCenterHub className="w-full h-full" />
             </div>
           </div>
         </div>
@@ -145,7 +146,9 @@ export default function FamilyRoulette() {
             </div>
           ) : (
             <div className="text-center py-6 sm:py-8 text-slate-400">
-              <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">🎡</div>
+              <div className="w-16 h-16 mx-auto mb-2 sm:mb-3 opacity-90 flex items-center justify-center">
+                <VectorRouletteWheel className="w-16 h-16" />
+              </div>
               <h4 className="font-fun text-sm sm:text-base font-bold text-slate-700 mb-1">
                 ¿Qué reto jugaremos hoy?
               </h4>

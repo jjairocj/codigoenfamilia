@@ -1,4 +1,5 @@
 import MicrobitSimulator from "@/components/MicrobitSimulator";
+import GameAnimatedDemo from "@/components/GameAnimatedDemo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Sparkles, ArrowRight, Laptop } from "lucide-react";
@@ -25,6 +26,9 @@ export default function MicrobitPage() {
           Experimenta con una placa microcontroladora real desde el navegador. Toca los bombillos para dibujar, presiona los botones A y B, o lanza un dado aleatorio.
         </p>
       </div>
+
+      {/* Animated Demo Guide */}
+      <GameAnimatedDemo initialGame="microbit" defaultExpanded={false} />
 
       {/* Simulator Component */}
       <MicrobitSimulator />

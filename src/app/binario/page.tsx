@@ -1,4 +1,5 @@
 import BinaryWorkshop from "@/components/BinaryWorkshop";
+import GameAnimatedDemo from "@/components/GameAnimatedDemo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Binary, ArrowRight } from "lucide-react";
@@ -25,6 +26,9 @@ export default function BinarioPage() {
           Las computadoras no tienen ojos ni oídos: solo tienen pequeños interruptores que pueden estar apagados (0) o encendidos (1). ¡Aprende a sumar con bits y descifra mensajes secretos!
         </p>
       </div>
+
+      {/* Animated Demo Guide */}
+      <GameAnimatedDemo initialGame="binario" defaultExpanded={false} />
 
       {/* Workshop */}
       <BinaryWorkshop />

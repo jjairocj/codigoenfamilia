@@ -1,4 +1,5 @@
 import ScratchSandbox from "@/components/ScratchSandbox";
+import GameAnimatedDemo from "@/components/GameAnimatedDemo";
 import { Sparkles, HeartHandshake, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
@@ -24,6 +25,9 @@ export default function ScratchPage() {
           Programar no es memorizar códigos crípticos: es encajar ideas como bloques de madera. Diseña tu secuencia y mira cobrar vida al personaje al presionar la bandera verde.
         </p>
       </div>
+
+      {/* Animated Demo Guide */}
+      <GameAnimatedDemo initialGame="scratch" defaultExpanded={false} />
 
       {/* Main Sandbox */}
       <ScratchSandbox />

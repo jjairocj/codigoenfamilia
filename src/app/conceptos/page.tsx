@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import conceptsData from "@/data/concepts.json";
 import missionsData from "@/data/missions.json";
 import { BookOpen, Search, Compass, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import gsap from "gsap";
+import { MONTESSORI_EASINGS, prefersReducedMotion } from "@/lib/montessoriMotion";
 
 interface Concept {
   id: string;
@@ -15,6 +17,7 @@ interface Concept {
 
 export default function ConceptosPage() {
   const [search, setSearch] = useState("");
+  const gridRef = useRef<HTMLDivElement>(null);
 
   // Map of concept id to mission count
   const missionCounts = useMemo(() => {
@@ -43,6 +46,29 @@ export default function ConceptosPage() {
         c.description.toLowerCase().includes(q)
     );
   }, [search]);
+
+  // Montessori Stagger entrance via GSAP
+  useEffect(() => {
+    if (prefersReducedMotion() || !gridRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".concept-card",
+        { opacity: 0, y: 18, scale: 0.97 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.45,
+          stagger: 0.035,
+          ease: MONTESSORI_EASINGS.tactile,
+          clearProps: "transform",
+        }
+      );
+    }, gridRef);
+
+    return () => ctx.revert();
+  }, [filteredConcepts]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8 sm:space-y-10">
@@ -74,14 +100,14 @@ export default function ConceptosPage() {
       </div>
 
       {/* Concepts Grid: Clean cards navigating to dedicated pages */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" ref={gridRef}>
         {filteredConcepts.map((concept) => {
           const count = missionCounts[concept.id] || 0;
           return (
             <Link
               key={concept.id}
               href={`/conceptos/${concept.id}`}
-              className="wood-card p-5 sm:p-6 border-2 border-slate-200 hover:border-teal-400 hover:shadow-md transition-all flex flex-col justify-between group bg-white"
+              className="concept-card wood-card p-5 sm:p-6 border-2 border-slate-200 hover:border-teal-400 hover:shadow-md transition-all flex flex-col justify-between group bg-white"
             >
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between gap-2">

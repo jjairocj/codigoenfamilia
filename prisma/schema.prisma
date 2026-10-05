@@ -43,3 +43,30 @@ model MissionStamp {
   @@unique([childId, missionCode])
   @@map("mission_stamps")
 }
+
+model FeedbackTicket {
+  id         String   @id @default(uuid())
+  familyName String
+  email      String
+  category   String   // "duda_mision", "error_tecnico", "sugerencia", "otro"
+  missionId  String?  // Ej. "s01-robot-humano"
+  message    String
+  currentUrl String?  // URL exacta de origen
+  deviceInfo String?  // Navegador y pantalla
+  status     String   @default("pendiente") // "pendiente", "resuelto"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("feedback_tickets")
+}
+
+model SiteVisit {
+  id        String   @id @default(uuid())
+  pagePath  String   // Ej. "/misiones", "/scratch", "/robot"
+  section   String?  // Ej. "misiones", "herramientas", "desenchufado"
+  visitedAt DateTime @default(now())
+
+  @@index([pagePath])
+  @@index([visitedAt])
+  @@map("site_visits")
+}

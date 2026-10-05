@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import NarratorButton from "@/components/NarratorButton";
+
+import React, { useState, useMemo, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { montessoriTactileBounce, montessoriSuccessPulse, montessoriStaggerEntrance, prefersReducedMotion } from "@/lib/montessoriMotion";
 import Link from "next/link";
 import { usePassport } from "@/context/PassportContext";
 import { sound } from "@/lib/sound";
@@ -86,7 +90,7 @@ function FormattedText({ text }: { text: string }) {
               key={index}
               className="font-bold text-slate-900 bg-amber-100/60 px-1 py-0.5 rounded"
             >
-              {part.slice(2, -2)}
+              <FormattedText text={part.slice(2, -2)} />
             </strong>
           );
         }
@@ -115,9 +119,9 @@ function FormattedText({ text }: { text: string }) {
             <Link
               key={index}
               href={linkUrl}
-              className="text-amber-800 font-bold underline underline-offset-2 hover:text-amber-950 transition-colors"
+              className="text-amber-800 font-bold underline underline-offset-2 hover:text-amber-950 transition-colors inline-flex items-center gap-0.5"
             >
-              {linkText}
+              <FormattedText text={linkText} />
             </Link>
           ) : (
             <a
@@ -125,9 +129,9 @@ function FormattedText({ text }: { text: string }) {
               href={linkUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-amber-800 font-bold underline underline-offset-2 hover:text-amber-950 transition-colors"
+              className="text-amber-800 font-bold underline underline-offset-2 hover:text-amber-950 transition-colors inline-flex items-center gap-0.5"
             >
-              {linkText}
+              <FormattedText text={linkText} />
             </a>
           );
         }
@@ -214,11 +218,51 @@ export default function MissionDetailClient({
   const done = isCompleted(mission.code);
   const lvl = LEVEL_INFO[mission.level] || LEVEL_INFO.semillas;
 
+  const missionContainerRef = useRef<HTMLDivElement>(null);
+
+  // Interactive Step Completion Tracker
+  const [completedSteps, setCompletedSteps] = useState<Record<number, boolean>>({});
+
   // Interactive Checklist State for Materials
   const [checkedMaterials, setCheckedMaterials] = useState<Record<number, boolean>>({});
 
-  const toggleMaterial = (index: number) => {
+  // Montessori GSAP Entrance Stagger
+  useEffect(() => {
+    if (prefersReducedMotion() || !missionContainerRef.current) return;
+    const ctx = gsap.context(() => {
+      montessoriStaggerEntrance(".mission-task-card", {
+        stagger: 0.06,
+        yOffset: 16,
+        duration: 0.55,
+      });
+    }, missionContainerRef);
+    return () => ctx.revert();
+  }, [mission.id]);
+
+  const toggleStep = (stepNumber: number, e: React.MouseEvent<HTMLButtonElement>) => {
     sound.click();
+    const nextState = !completedSteps[stepNumber];
+    montessoriTactileBounce(e.currentTarget);
+    setCompletedSteps((prev) => ({
+      ...prev,
+      [stepNumber]: nextState,
+    }));
+
+    // If all steps now marked, soft celebratory pulse
+    if (nextState && stepsList.length > 0) {
+      const allDone = stepsList.every((s) => (s.number === stepNumber ? true : !!completedSteps[s.number]));
+      if (allDone) {
+        sound.chime();
+        montessoriSuccessPulse(missionContainerRef.current);
+      }
+    }
+  };
+
+  const toggleMaterial = (index: number, e?: React.MouseEvent<HTMLElement>) => {
+    sound.click();
+    if (e?.currentTarget) {
+      montessoriTactileBounce(e.currentTarget);
+    }
     setCheckedMaterials((prev) => ({
       ...prev,
       [index]: !prev[index],
@@ -236,12 +280,31 @@ export default function MissionDetailClient({
       t.includes("computador") || t.includes("scratch") || t.includes("python")
   );
 
+  const isMicrobitMission =
+    mission.id.startsWith("i17") ||
+    mission.id.startsWith("i18") ||
+    mission.id.startsWith("i19") ||
+    mission.id.startsWith("i20") ||
+    mission.body.toLowerCase().includes("micro:bit");
+
+  const isScratchMission =
+    mission.level === "exploradores" ||
+    mission.id.startsWith("e") ||
+    (mission.id.startsWith("i") && ["i01", "i02", "i03", "i04", "i05", "i06"].includes(mission.id)) ||
+    mission.body.toLowerCase().includes("scratch.mit.edu");
+
   const sections = useMemo(() => parseMissionBody(mission.body), [mission.body]);
   const adultEntries = useMemo(() => parseAdultBox(mission.adultBox), [mission.adultBox]);
 
-  const handleStampClick = () => {
+  const handleStampClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
     sound.stamp();
+    if (e?.currentTarget) {
+      montessoriTactileBounce(e.currentTarget);
+    }
     toggleStamp(mission.code);
+    if (missionContainerRef.current && !done) {
+      montessoriSuccessPulse(missionContainerRef.current);
+    }
     if (!done) {
       confetti({
         particleCount: 50,
@@ -285,7 +348,7 @@ export default function MissionDetailClient({
   }, [sections]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
+    <div ref={missionContainerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
       
       {/* Breadcrumb Navigation */}
       <nav aria-label="Ruta de navegación" className="flex items-center gap-1.5 text-xs text-slate-500 font-medium overflow-x-auto pb-1 no-scrollbar">
@@ -353,12 +416,19 @@ export default function MissionDetailClient({
             <p className="text-xs sm:text-base text-slate-700 leading-relaxed max-w-3xl font-medium">
               {mission.description}
             </p>
+
+            <div className="pt-1">
+              <NarratorButton
+                title={mission.title.replace(/^[A-Z0-9]+ · /, "")}
+                text={`${mission.description}. ${sections["🗺️ Tu misión"] || ""}. ${sections["💡 La gran idea"] || ""}`}
+              />
+            </div>
           </div>
 
           {/* Stamp Action Button */}
           <div className="shrink-0 w-full md:w-auto">
             <button
-              onClick={handleStampClick}
+              onClick={(e) => handleStampClick(e)}
               className={`w-full md:w-auto wood-btn px-6 py-4 rounded-2xl flex items-center justify-center gap-3 transition-all ${
                 done
                   ? "bg-amber-300 hover:bg-amber-400 text-amber-950 border-amber-500 shadow-md scale-102"
@@ -397,6 +467,78 @@ export default function MissionDetailClient({
         
         {/* LEFT COLUMN: Clean Visual Mission Sections */}
         <div className="lg:col-span-7 space-y-6">
+
+          {/* Interactive Tool Banner for micro:bit */}
+          {isMicrobitMission && (
+            <div className="wood-card p-4 sm:p-5 bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-amber-500/10 border-2 border-emerald-400 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                  🎛️
+                </div>
+                <div>
+                  <div className="font-fun text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2">
+                    Simulador Virtual micro:bit v2
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                      En Vivo
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600">
+                    Prueba la matriz LED 5×5, botones A y B, y sonido directamente aquí sin instalar nada.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 w-full sm:w-auto shrink-0">
+                <Link
+                  href="/microbit"
+                  className="wood-btn bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-2 px-3.5 flex items-center justify-center gap-1.5 shadow-sm flex-1 sm:flex-none"
+                >
+                  <span>▶️</span> Abrir Simulador
+                </Link>
+                <Link
+                  href="/herramientas/microbit"
+                  className="wood-btn bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs py-2 px-3 border-slate-300 flex items-center justify-center gap-1 flex-1 sm:flex-none"
+                >
+                  <span>📖</span> Guía
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Interactive Tool Banner for Scratch */}
+          {isScratchMission && (
+            <div className="wood-card p-4 sm:p-5 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-rose-500/10 border-2 border-amber-400 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                  🐱
+                </div>
+                <div>
+                  <div className="font-fun text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2">
+                    Laboratorio Scratch 3.0
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 border border-amber-400">
+                      Interactúa
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600">
+                    Encaja bloques como Lego, haz saltar al gatito y prueba la bandera verde en nuestro simulador.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 w-full sm:w-auto shrink-0">
+                <Link
+                  href="/scratch"
+                  className="wood-btn bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs py-2 px-3.5 flex items-center justify-center gap-1.5 shadow-sm flex-1 sm:flex-none"
+                >
+                  <span>🚩</span> Abrir Laboratorio
+                </Link>
+                <Link
+                  href="/herramientas/scratch"
+                  className="wood-btn bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs py-2 px-3 border-slate-300 flex items-center justify-center gap-1 flex-1 sm:flex-none"
+                >
+                  <span>📖</span> Guía
+                </Link>
+              </div>
+            </div>
+          )}
 
           {/* 1. TU MISIÓN */}
           {sections["🗺️ Tu misión"] && (
@@ -438,21 +580,34 @@ export default function MissionDetailClient({
                 {materialsList.map((item, idx) => {
                   const isChecked = !!checkedMaterials[idx];
                   return (
-                    <button
+                    <div
                       key={idx}
-                      type="button"
-                      onClick={() => toggleMaterial(idx)}
-                      className={`w-full text-left p-3 rounded-xl border flex items-center gap-3 transition-colors ${
+                      onClick={(e) => {
+                        const target = e.target as HTMLElement;
+                        if (target.closest("a") || target.closest("button")) return;
+                        toggleMaterial(idx, e);
+                      }}
+                      className={`w-full text-left p-3 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
                         isChecked
                           ? "bg-emerald-50/70 border-emerald-300 text-slate-800"
                           : "bg-slate-50/60 hover:bg-sky-50/50 border-slate-200 text-slate-700"
                       }`}
                     >
-                      {isChecked ? (
-                        <CheckSquare className="w-5 h-5 text-emerald-600 shrink-0" />
-                      ) : (
-                        <Square className="w-5 h-5 text-slate-400 shrink-0" />
-                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleMaterial(idx, e);
+                        }}
+                        aria-label={isChecked ? "Desmarcar material" : "Marcar material listo"}
+                        className="focus:outline-hidden shrink-0"
+                      >
+                        {isChecked ? (
+                          <CheckSquare className="w-5 h-5 text-emerald-600" />
+                        ) : (
+                          <Square className="w-5 h-5 text-slate-400" />
+                        )}
+                      </button>
                       <span
                         className={`text-xs sm:text-sm leading-snug flex-1 ${
                           isChecked ? "line-through text-slate-400 font-medium" : "font-medium"
@@ -460,7 +615,7 @@ export default function MissionDetailClient({
                       >
                         <FormattedText text={item} />
                       </span>
-                    </button>
+                    </div>
                   );
                 })}
               </div>
@@ -495,7 +650,7 @@ export default function MissionDetailClient({
 
           {/* 3. PASO A PASO (Numbered Cards) */}
           {stepsList.length > 0 ? (
-            <div className="wood-card p-5 sm:p-7 bg-white border-2 border-amber-200/80 shadow-xs space-y-4">
+            <div className="mission-task-card wood-card p-5 sm:p-7 bg-white border-2 border-amber-200/80 shadow-xs space-y-4">
               <div className="flex items-center gap-2 pb-2 border-b border-amber-100">
                 <span className="text-2xl">👣</span>
                 <h2 className="font-fun text-base sm:text-lg font-bold text-slate-800">
@@ -503,19 +658,39 @@ export default function MissionDetailClient({
                 </h2>
               </div>
               <div className="space-y-3 pt-1">
-                {stepsList.map((step) => (
-                  <div
-                    key={step.number}
-                    className="p-3.5 sm:p-4 rounded-2xl bg-amber-50/40 border border-amber-200/60 flex items-start gap-3.5"
-                  >
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-400 text-amber-950 font-fun font-bold flex items-center justify-center shrink-0 text-xs sm:text-sm shadow-2xs">
-                      {step.number}
-                    </div>
-                    <div className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pt-0.5">
-                      <FormattedText text={step.text} />
-                    </div>
-                  </div>
-                ))}
+                {stepsList.map((step) => {
+                  const isStepDone = !!completedSteps[step.number];
+                  return (
+                    <button
+                      key={step.number}
+                      type="button"
+                      onClick={(e) => toggleStep(step.number, e)}
+                      className={`w-full text-left p-3.5 sm:p-4 rounded-2xl border transition-all flex items-start gap-3.5 cursor-pointer ${
+                        isStepDone
+                          ? "bg-emerald-50/80 border-emerald-300 shadow-2xs"
+                          : "bg-amber-50/40 hover:bg-amber-100/60 border-amber-200/70"
+                      }`}
+                    >
+                      <div
+                        className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full font-fun font-bold flex items-center justify-center shrink-0 text-xs sm:text-sm shadow-2xs transition-colors ${
+                          isStepDone
+                            ? "bg-emerald-500 text-white"
+                            : "bg-amber-400 text-amber-950"
+                        }`}
+                      >
+                        {isStepDone ? <CheckCircle2 className="w-4 h-4 text-white" /> : step.number}
+                      </div>
+                      <div className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pt-0.5 flex-1">
+                        <span className={isStepDone ? "line-through text-slate-400" : ""}>
+                          <FormattedText text={step.text} />
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-400 shrink-0 self-center hidden sm:inline">
+                        {isStepDone ? "¡Completado! ✓" : "Toca para marcar"}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           ) : (
@@ -539,7 +714,7 @@ export default function MissionDetailClient({
 
           {/* 4. RETO EXTRA (Golden Bonus Box) */}
           {sections["🏆 Reto extra"] && (
-            <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-amber-50 to-yellow-100/50 border-2 border-amber-300 shadow-xs space-y-2.5">
+            <div className="mission-task-card wood-card p-5 sm:p-6 bg-gradient-to-br from-amber-50 to-yellow-100/50 border-2 border-amber-300 shadow-xs space-y-2.5">
               <div className="flex items-center gap-2 pb-1 border-b border-amber-200">
                 <Award className="w-5 h-5 text-amber-700" />
                 <h3 className="font-fun text-sm sm:text-base font-bold text-amber-950">
@@ -554,7 +729,7 @@ export default function MissionDetailClient({
 
           {/* 5. SI ALGO NO FUNCIONA (Debugging / Depuración) */}
           {sections["🐞 Si algo no funciona"] && (
-            <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 shadow-xs space-y-2.5">
+            <div className="mission-task-card wood-card p-5 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 shadow-xs space-y-2.5">
               <div className="flex items-center gap-2 pb-1 border-b border-emerald-200">
                 <AlertCircle className="w-5 h-5 text-emerald-700" />
                 <h3 className="font-fun text-sm sm:text-base font-bold text-emerald-950">
@@ -569,7 +744,7 @@ export default function MissionDetailClient({
 
           {/* 6. MUÉSTRASELO A TU ADULTO */}
           {sections["💬 Muéstraselo a tu adulto"] && (
-            <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 shadow-xs space-y-2.5">
+            <div className="mission-task-card wood-card p-5 sm:p-6 bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 shadow-xs space-y-2.5">
               <div className="flex items-center gap-2 pb-1 border-b border-purple-200">
                 <MessageCircle className="w-5 h-5 text-purple-700" />
                 <h3 className="font-fun text-sm sm:text-base font-bold text-purple-950">

@@ -1,4 +1,5 @@
 import PythonPlayground from "@/components/PythonPlayground";
+import GameAnimatedDemo from "@/components/GameAnimatedDemo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Terminal, ArrowRight } from "lucide-react";
@@ -25,6 +26,9 @@ export default function PythonPage() {
           Sin instalaciones complicadas ni configuraciones técnicas. Escribe tu código, cambia los valores y observa cómo tu computadora cobra vida en la terminal.
         </p>
       </div>
+
+      {/* Animated Demo Guide */}
+      <GameAnimatedDemo initialGame="python" defaultExpanded={false} />
 
       {/* Playground */}
       <PythonPlayground />

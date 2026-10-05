@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Heart, Sparkles, Shield, Gift, BookOpen } from "lucide-react";
+import { Heart, Sparkles, Shield, Gift, BookOpen, Scissors } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -37,14 +37,22 @@ export default function Footer() {
 
           <div>
             <h4 className="font-fun font-bold text-slate-800 text-sm mb-3 flex items-center gap-1.5">
-              <Gift className="w-4 h-4 text-purple-500" /> Herramientas
+              <Gift className="w-4 h-4 text-purple-500" /> Herramientas & Actividades
             </h4>
             <ul className="text-xs space-y-2 text-slate-600">
-              <li><Link href="/robot" className="hover:text-emerald-700">🤖 El Robot Boty</Link></li>
+              <li><Link href="/instalar" className="hover:text-emerald-700 font-bold text-emerald-800">📲 Instalar App (Modo Sin Internet)</Link></li>
+              <li><Link href="/desenchufado" className="hover:text-emerald-700 font-bold text-emerald-800">✂️ Actividades Sin Pantalla (8 retos)</Link></li>
+              <li><Link href="/robot" className="hover:text-emerald-700">🤖 El Robot Boty (Simulador 5x5)</Link></li>
               <li><Link href="/ruleta" className="hover:text-purple-700">🎡 Ruleta de Retos Familiares</Link></li>
+              <li><Link href="/reloj" className="hover:text-amber-700 font-semibold">⏳ El Reloj de la Sala (Visual Timer)</Link></li>
+              <li><Link href="/reto-familiar" className="hover:text-rose-700 font-semibold">👨‍👧 Retos en Familia & Reta a Papá</Link></li>
+              <li><Link href="/educadores" className="hover:text-emerald-700 font-semibold">🏫 Kit del Educador & Escuelas</Link></li>
               <li><Link href="/scratch" className="hover:text-rose-700">🧩 Laboratorio Scratch</Link></li>
+              <li><Link href="/microbit" className="hover:text-indigo-700">📟 Simulador Micro:bit</Link></li>
+              <li><Link href="/binario" className="hover:text-cyan-700">💡 Taller Binario 8-Bits</Link></li>
+              <li><Link href="/python" className="hover:text-amber-700">🐍 Laboratorio Python</Link></li>
+              <li><Link href="/proyectos" className="hover:text-amber-800 font-semibold">💡 Proyectos en Familia</Link></li>
               <li><Link href="/descargas" className="hover:text-blue-700">🖨️ Pasaportes y Diplomas PDF</Link></li>
-              <li><Link href="/conceptos" className="hover:text-teal-700">🧠 Glosario de Conceptos</Link></li>
             </ul>
           </div>
 

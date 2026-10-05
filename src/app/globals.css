@@ -39,8 +39,11 @@ h1, h2, h3, h4, h5, h6, .font-fun {
 }
 
 /* Wooden Block Sensory Card Effect */
+.wood-card:not([class*="bg-"]) {
+  background-color: #ffffff;
+}
+
 .wood-card {
-  background: #ffffff;
   border: 2px solid rgba(217, 119, 6, 0.12);
   border-radius: 1.25rem;
   box-shadow: 0 8px 20px -4px rgba(180, 83, 9, 0.05), 0 4px 6px -2px rgba(180, 83, 9, 0.03);
@@ -48,7 +51,11 @@ h1, h2, h3, h4, h5, h6, .font-fun {
 }
 
 @media (min-width: 640px) {
-  .wood-card {
+  .wood-card:not([class*="bg-"]) {
+  background-color: #ffffff;
+}
+
+.wood-card {
     border-radius: 1.5rem;
     box-shadow: 0 10px 25px -5px rgba(180, 83, 9, 0.06), 0 8px 10px -6px rgba(180, 83, 9, 0.04);
   }

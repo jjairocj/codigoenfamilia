@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { sound } from "@/lib/sound";
 import confetti from "canvas-confetti";
+import gsap from "gsap";
 import {
-  Play, RotateCcw, Sparkles, Plus, Trash2, Cpu, CheckCircle2
+  Play, RotateCcw, Sparkles, Plus, Trash2, Cpu, CheckCircle2,
+  Terminal, Code, Award, Check, Radio, Compass, Bell, Shield
 } from "lucide-react";
 
 export interface MinigameProps {
@@ -13,6 +15,119 @@ export interface MinigameProps {
   completed: boolean;
 }
 
+// -------------------------------------------------------------
+// I08: Turtle Graphics Interactive SVG Canvas
+// -------------------------------------------------------------
+function I08TurtleCanvas({ onWin, completed }: { onWin: () => void; completed: boolean }) {
+  const [turtle, setTurtle] = useState({ x: 150, y: 90, angle: 0 });
+  const [lines, setLines] = useState<Array<{ x1: number; y1: number; x2: number; y2: number }>>([]);
+  const [steps, setSteps] = useState(0);
+
+  const forward = (dist: number = 40) => {
+    sound.click();
+    const rad = (turtle.angle * Math.PI) / 180;
+    const nx = Math.max(15, Math.min(285, turtle.x + Math.cos(rad) * dist));
+    const ny = Math.max(15, Math.min(165, turtle.y + Math.sin(rad) * dist));
+
+    setLines((prev) => [...prev, { x1: turtle.x, y1: turtle.y, x2: nx, y2: ny }]);
+    setTurtle((prev) => ({ ...prev, x: nx, y: ny }));
+
+    const nextSteps = steps + 1;
+    setSteps(nextSteps);
+    if (nextSteps >= 4) {
+      sound.chime();
+      confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
+      onWin();
+    }
+  };
+
+  const turn = (deg: number) => {
+    sound.click();
+    setTurtle((prev) => ({ ...prev, angle: (prev.angle + deg) % 360 }));
+  };
+
+  const reset = () => {
+    sound.click();
+    setTurtle({ x: 150, y: 90, angle: 0 });
+    setLines([]);
+    setSteps(0);
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between text-xs px-1">
+        <span className="font-bold text-slate-700">🐢 Lienzo de Dibujo con Turtle</span>
+        <span className="font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+          Trazos: {steps}/4
+        </span>
+      </div>
+
+      <div className="relative rounded-2xl overflow-hidden border-2 border-amber-300 bg-slate-900 shadow-inner">
+        <svg viewBox="0 0 300 180" className="w-full h-40">
+          <defs>
+            <pattern id="turtleGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect width="300" height="180" fill="#0f172a" />
+          <rect width="300" height="180" fill="url(#turtleGrid)" />
+
+          {/* Drawn Lines */}
+          {lines.map((l, i) => (
+            <line
+              key={i}
+              x1={l.x1}
+              y1={l.y1}
+              x2={l.x2}
+              y2={l.y2}
+              stroke="#10b981"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+          ))}
+
+          {/* Turtle Icon */}
+          <g
+            transform={`translate(${turtle.x}, ${turtle.y}) rotate(${turtle.angle})`}
+            style={{ transition: "transform 0.25s ease-out" }}
+          >
+            <circle r="12" fill="#059669" stroke="#6ee7b7" strokeWidth="1.5" />
+            <text x="0" y="4" textAnchor="middle" fontSize="12" fill="white">
+              🐢
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+        <div className="flex gap-2">
+          <button
+            onClick={() => forward(40)}
+            className="wood-btn px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs"
+          >
+            t.forward(40) ➡️
+          </button>
+          <button
+            onClick={() => turn(90)}
+            className="wood-btn px-3 py-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs"
+          >
+            t.right(90°) 🔄
+          </button>
+        </div>
+        <button
+          onClick={reset}
+          className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-xl"
+        >
+          <RotateCcw className="w-3.5 h-3.5" /> Reiniciar
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// -------------------------------------------------------------
+// Main Inventores Game Component
+// -------------------------------------------------------------
 export function InventoresGame({ code, onWin, completed }: MinigameProps) {
   const triggerWin = () => {
     sound.chime();
@@ -46,9 +161,6 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
   // I07: De bloques a texto
   const [i07Matched, setI07Matched] = useState(false);
 
-  // I08: La tortuga
-  const [i08Angle, setI08Angle] = useState(0);
-
   // I09: Repetir con for
   const [i09Step, setI09Step] = useState(0);
 
@@ -80,25 +192,25 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
   const [i17Icon, setI17Icon] = useState("❤️");
 
   // I18: Botones y luces
-  const [i18Count, setI18Count] = useState(0);
+  const [i18BtnA, setI18BtnA] = useState(false);
 
   // I19: Sensores
-  const [i19SensorVal, setI19SensorVal] = useState(25);
+  const [i19Light, setI19Light] = useState(128);
 
-  // I20: Juego con la placa
-  const [i20Roll, setI20Roll] = useState<string | null>(null);
+  // I20: Radio
+  const [i20Msg, setI20Msg] = useState("");
 
-  // I21: ¿Cómo funciona internet?
-  const [i21Packets, setI21Packets] = useState<number>(0);
+  // I21: Dado electrónico
+  const [i21Dice, setI21Dice] = useState(6);
 
-  // I22: ¿Qué es la IA?
-  const [i22Trained, setI22Trained] = useState<number>(0);
+  // I22: Podómetro
+  const [i22Steps, setI22Steps] = useState(0);
 
-  // I23: Contraseñas y privacidad
-  const [i23Pass, setI23Pass] = useState("");
+  // I23: Brújula
+  const [i23Heading, setI23Heading] = useState(0);
 
-  // I24: Proyecto final de Inventores
-  const [i24Activated, setI24Activated] = useState<Record<string, boolean>>({});
+  // I24: Proyecto final
+  const [i24Badge, setI24Badge] = useState(false);
 
   return (
     <div className="space-y-4">
@@ -106,13 +218,13 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
       {code === "I01" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Crea clones dinámicos del personaje en pantalla hasta tener 4 clones:
+            Crea 4 clones usando el bloque de Scratch <code>crear clon de [mí mismo]</code>:
           </p>
-          <div className="flex justify-center gap-2 h-16 items-center bg-purple-50 rounded-xl p-2">
-            <span className="text-2xl font-bold">🐱</span>
-            {i01Clones.map((id) => (
-              <span key={id} className="text-xl animate-in zoom-in-50">
-                🐱
+          <div className="flex justify-center gap-2 h-16 items-center bg-purple-50 rounded-2xl border border-purple-200">
+            <span className="text-3xl">👾</span>
+            {i01Clones.map((_, i) => (
+              <span key={i} className="text-2xl animate-in zoom-in duration-300">
+                👾
               </span>
             ))}
           </div>
@@ -134,11 +246,11 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
       {code === "I02" && (
         <div className="space-y-3">
           <p className="text-xs text-slate-600">
-            Administra tu inventario de objetos agregando al menos 2 ítems a la lista:
+            Administra tu inventario de objetos agregando ítems a la lista:
           </p>
-          <div className="space-y-1 bg-white p-2.5 rounded-xl border border-amber-200">
+          <div className="space-y-1 bg-white p-2.5 rounded-2xl border border-amber-200">
             {i02Items.map((item, idx) => (
-              <div key={idx} className="flex justify-between items-center text-xs p-1 bg-amber-50 rounded">
+              <div key={idx} className="flex justify-between items-center text-xs p-1.5 bg-amber-50 rounded-xl">
                 <span>{item}</span>
               </div>
             ))}
@@ -174,7 +286,7 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
           <p className="text-xs text-slate-600">
             Llama a la función <code>dibujar_poligono(lados={i03Sides})</code>:
           </p>
-          <div className="w-24 h-24 mx-auto bg-white border border-amber-200 rounded-2xl flex items-center justify-center text-2xl font-bold">
+          <div className="w-20 h-20 mx-auto bg-white border border-amber-200 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-xs">
             {i03Sides === 3 ? "🔺" : i03Sides === 4 ? "🔲" : i03Sides === 5 ? "⬟" : "🛑"}
           </div>
           <div className="flex justify-center gap-2">
@@ -228,7 +340,7 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
       {code === "I05" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Máquina de estados: supera el reto para pasar de nivel 1 al 3:
+            Supera los retos para avanzar de nivel 1 al 3:
           </p>
           <div className="text-sm font-bold text-slate-800 bg-sky-100 p-2 rounded-xl">
             Nivel Actual: {i05Level} de 3
@@ -272,11 +384,11 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
         </div>
       )}
 
-      {/* I07: De bloques a texto */}
+      {/* I07: De bloques a texto (Scratch a Python) */}
       {code === "I07" && (
-        <div className="space-y-3 text-center">
+        <div className="space-y-3">
           <p className="text-xs text-slate-600">
-            ¿Cuál es el equivalente en Python del bloque Scratch <code>repetir (5)</code>?
+            ¿Cuál es la sintaxis correcta en Python para el bloque de Scratch <code>repetir (5)</code>?
           </p>
           <div className="space-y-2">
             <button
@@ -285,64 +397,60 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
                 setI07Matched(true);
                 triggerWin();
               }}
-              className="w-full p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-xs font-mono font-bold text-emerald-900 text-left"
+              className="w-full p-3 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-xs font-mono font-bold text-emerald-950 text-left hover:bg-emerald-100 transition-all flex items-center justify-between"
             >
-              for i in range(5):
+              <span>for i in range(5):</span>
+              <span className="text-emerald-600 font-sans text-xs">⭐ ¡Correcto!</span>
             </button>
             <button
               onClick={() => sound.bump()}
-              className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-700 text-left"
+              className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-600 text-left hover:bg-slate-50"
             >
               repeat 5 times()
+            </button>
+            <button
+              onClick={() => sound.bump()}
+              className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-600 text-left hover:bg-slate-50"
+            >
+              loop(5) =&gt; {}
             </button>
           </div>
         </div>
       )}
 
-      {/* I08: La tortuga */}
+      {/* I08: La tortuga (Turtle Canvas) */}
       {code === "I08" && (
-        <div className="space-y-3 text-center">
-          <p className="text-xs text-slate-600">
-            Gira la tortuga con <code>t.left(60)</code> para completar un hexágono:
-          </p>
-          <div className="w-20 h-20 mx-auto bg-amber-50 rounded-full border border-amber-200 flex items-center justify-center text-3xl">
-            <span style={{ transform: `rotate(${i08Angle}deg)` }} className="transition-transform">
-              🐢
-            </span>
-          </div>
-          <button
-            onClick={() => {
-              sound.click();
-              const next = i08Angle + 60;
-              setI08Angle(next);
-              if (next >= 360) triggerWin();
-            }}
-            className="wood-btn px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs"
-          >
-            🔄 Girar Tortuga (+60°)
-          </button>
-        </div>
+        <I08TurtleCanvas onWin={triggerWin} completed={completed} />
       )}
 
       {/* I09: Repetir con for */}
       {code === "I09" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Depura paso a paso el bucle: <code>for i in range(4): print(i)</code>
+            Avanza paso a paso el bucle: <code>for i in range(4): robot.avanzar()</code>
           </p>
-          <div className="p-2.5 bg-slate-900 rounded-xl text-emerald-400 font-mono text-xs">
-            Valor de i: {i09Step} (Paso {i09Step + 1} de 4)
+          <div className="p-3 bg-slate-950 rounded-2xl text-emerald-400 font-mono text-xs border border-slate-800 flex items-center justify-around">
+            {[0, 1, 2, 3].map((step) => (
+              <span
+                key={step}
+                className={`p-1.5 rounded-lg ${
+                  i09Step === step ? "bg-emerald-500 text-white font-bold animate-pulse" : "text-slate-500"
+                }`}
+              >
+                paso {step}
+              </span>
+            ))}
           </div>
           <button
             onClick={() => {
               sound.click();
-              const next = i09Step + 1;
+              const next = (i09Step + 1) % 4;
               setI09Step(next);
-              if (next >= 3) triggerWin();
+              if (next === 3) triggerWin();
             }}
             className="wood-btn px-4 py-2 bg-amber-400 text-amber-950 font-bold text-xs"
           >
-            ⏭️ Siguiente Iteración
+            ⏭️ Siguiente Iteración ({i09Step + 1}/4)
           </button>
         </div>
       )}
@@ -353,19 +461,30 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
           <p className="text-xs text-slate-600">
             Calcula el área del rectángulo: <code>area = base * altura</code>
           </p>
-          <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs font-mono font-bold text-amber-900">
+          <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-xs font-mono font-bold text-amber-950">
             base = {i10Base} | altura = {i10Height} → area = {i10Base * i10Height}
           </div>
-          <button
-            onClick={() => {
-              sound.click();
-              setI10Base(i10Base + 1);
-              triggerWin();
-            }}
-            className="wood-btn px-4 py-2 bg-emerald-500 text-white font-bold text-xs"
-          >
-            🧮 Recalcular Variables
-          </button>
+          <div className="flex justify-center gap-2">
+            <button
+              onClick={() => {
+                sound.click();
+                setI10Base(i10Base + 1);
+              }}
+              className="wood-btn text-xs px-3 py-1.5 bg-white font-bold"
+            >
+              base +1
+            </button>
+            <button
+              onClick={() => {
+                sound.click();
+                setI10Height(i10Height + 1);
+                triggerWin();
+              }}
+              className="wood-btn text-xs px-3 py-1.5 bg-emerald-500 text-white font-bold"
+            >
+              altura +1
+            </button>
+          </div>
         </div>
       )}
 
@@ -373,10 +492,10 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
       {code === "I11" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Evalúa la condición: <code>if temp &gt; 25: "Calor" else: "Fresco"</code>
+            Evalúa la condición: <code>if temp &gt; 25: "☀️ Calor" else: "❄️ Fresco"</code>
           </p>
-          <div className="text-sm font-bold text-slate-800 bg-sky-100 p-2 rounded-xl">
-            Temperatura: {i11Temp}°C → {i11Temp > 25 ? "☀️ Hace Calor" : "❄️ Está Fresco"}
+          <div className="text-sm font-bold text-slate-800 bg-sky-100 p-2.5 rounded-2xl border border-sky-200">
+            Temperatura: {i11Temp}°C → {i11Temp > 25 ? "☀️ Hace Calor (usa ropa ligera)" : "❄️ Está Fresco (usa saco)"}
           </div>
           <div className="flex justify-center gap-2">
             <button
@@ -387,16 +506,16 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
               }}
               className="wood-btn text-xs px-3 py-1.5 bg-amber-400 text-amber-950 font-bold"
             >
-              Fijar en 30°C (Calor)
+              Fijar en 30°C (☀️ Calor)
             </button>
             <button
               onClick={() => {
                 sound.click();
                 setI11Temp(12);
               }}
-              className="wood-btn text-xs px-3 py-1.5 bg-sky-200 text-sky-950"
+              className="wood-btn text-xs px-3 py-1.5 bg-sky-200 text-sky-950 font-bold"
             >
-              Fijar en 12°C (Fresco)
+              Fijar en 12°C (❄️ Fresco)
             </button>
           </div>
         </div>
@@ -409,7 +528,7 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
             Adivina el número secreto entre 1 y 20:
           </p>
           {i12Hint && (
-            <div className="text-xs font-bold text-amber-900 bg-amber-100 p-2 rounded-xl">
+            <div className="text-xs font-bold text-amber-900 bg-amber-100 p-2 rounded-xl border border-amber-300">
               {i12Hint}
             </div>
           )}
@@ -418,13 +537,14 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
               type="number"
               value={i12Guess}
               onChange={(e) => setI12Guess(e.target.value)}
-              placeholder="Número..."
+              placeholder="Número (ej: 14)..."
               className="flex-1 px-3 py-1.5 text-xs rounded-xl border border-slate-300"
             />
             <button
               onClick={() => {
                 const val = parseInt(i12Guess, 10);
                 if (val === i12Secret) {
+                  sound.chime();
                   setI12Hint("¡Correcto! ¡Adivinaste el número secreto! ⭐");
                   triggerWin();
                 } else if (val < i12Secret) {
@@ -447,9 +567,9 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
       {code === "I13" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Ejecuta la función: <code>def duplicar(x): return x * 2</code>
+            Llama a la función: <code>def duplicar(x): return x * 2</code>
           </p>
-          <div className="p-3 bg-purple-50 rounded-xl border border-purple-200 text-xs font-mono text-purple-900 font-bold">
+          <div className="p-3 bg-purple-50 rounded-2xl border border-purple-200 text-xs font-mono text-purple-950 font-bold">
             duplicar({i13Val}) → Resultado: {i13Val * 2}
           </div>
           <button
@@ -460,7 +580,7 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
             }}
             className="wood-btn px-4 py-2 bg-purple-600 text-white font-bold text-xs"
           >
-            ⚡ Probar con Nuevo Argumento
+            ⚡ Probar con Nuevo Argumento ({i13Val + 2})
           </button>
         </div>
       )}
@@ -471,7 +591,7 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
           <p className="text-xs text-slate-600">
             Aplica un slice: <code>frutas[1:3]</code> sobre <code>["🍎", "🍌", "🍇", "🍊"]</code>
           </p>
-          <div className="p-3 bg-white rounded-xl border border-amber-200 text-xs font-mono">
+          <div className="p-3 bg-white rounded-2xl border border-amber-200 text-xs font-mono">
             {i14Slice ? "Resultado del slice: ['🍌', '🍇'] ⭐" : "['🍎', '🍌', '🍇', '🍊']"}
           </div>
           <button
@@ -482,72 +602,72 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
             }}
             className="wood-btn px-4 py-2 bg-amber-400 text-amber-950 font-bold text-xs"
           >
-            ✂️ Ejecutar Slice frutas[1:3]
+            ✂️ Cortar Rebanada [1:3]
           </button>
         </div>
       )}
 
       {/* I15: Leer errores */}
       {code === "I15" && (
-        <div className="space-y-3 text-center">
+        <div className="space-y-3">
           <p className="text-xs text-slate-600">
-            Encuentra la línea que tiene un SyntaxError (falta dos puntos):
+            Corrige el <code>SyntaxError</code> añadiendo los dos puntos faltantes:
           </p>
-          <div className="space-y-2">
-            <button
-              onClick={() => {
-                sound.chime();
-                setI15Fixed(true);
-                triggerWin();
-              }}
-              className="w-full p-2.5 rounded-xl border border-rose-300 bg-rose-50 text-xs font-mono text-rose-900 text-left font-bold"
-            >
-              🐛 if edad &gt;= 18 (¡Falta el ':' al final!)
-            </button>
-            <button
-              onClick={() => sound.bump()}
-              className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-700 text-left"
-            >
-              print("Bienvenido")
-            </button>
+          <div className="p-3 bg-slate-900 rounded-2xl font-mono text-xs border border-slate-800">
+            <div className={i15Fixed ? "text-emerald-400" : "text-rose-400"}>
+              if puntos &gt; 10{i15Fixed ? ":" : " ⚠️ (Falta dos puntos)"}
+            </div>
+            <div className="text-slate-300 ml-4">print("¡Nuevo récord!")</div>
           </div>
+          <button
+            onClick={() => {
+              sound.chime();
+              setI15Fixed(true);
+              triggerWin();
+            }}
+            className="w-full wood-btn py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs"
+          >
+            🐛 Corregir Error de Sintaxis
+          </button>
         </div>
       )}
 
       {/* I16: Aventura de texto */}
       {code === "I16" && (
-        <div className="space-y-3 text-center">
+        <div className="space-y-3">
           <p className="text-xs text-slate-600">
-            Estás frente a dos puertas misteriosas en el castillo:
+            Toma una decisión en la historia de rol por consola:
           </p>
-          {i16Choice ? (
-            <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs font-bold text-emerald-900">
-              {i16Choice} ⭐
-            </div>
-          ) : (
-            <div className="flex justify-center gap-2">
-              <button
-                onClick={() => {
-                  sound.chime();
-                  setI16Choice("🚪 Puerta Dorada: ¡Encontraste la biblioteca mágica de código!");
-                  triggerWin();
-                }}
-                className="wood-btn text-xs px-3 py-2 bg-amber-300 text-amber-950 font-bold"
-              >
-                🚪 Puerta Dorada
-              </button>
-              <button
-                onClick={() => {
-                  sound.chime();
-                  setI16Choice("🚪 Puerta Plateada: ¡Encontraste el laboratorio de robótica!");
-                  triggerWin();
-                }}
-                className="wood-btn text-xs px-3 py-2 bg-slate-200 text-slate-900 font-bold"
-              >
-                🚪 Puerta Plateada
-              </button>
-            </div>
-          )}
+          <div className="p-3 bg-slate-950 rounded-2xl font-mono text-xs text-emerald-400 border border-slate-800">
+            &gt; Estás frente a dos caminos místicos.<br />
+            {i16Choice && (
+              <div className="text-amber-300 mt-2">
+                &gt; Elegiste: {i16Choice} → ¡Encontraste un cofre mágico! 💎
+              </div>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                sound.chime();
+                setI16Choice("🌲 El bosque antiguo");
+                triggerWin();
+              }}
+              className="flex-1 wood-btn py-2 bg-emerald-600 text-white font-bold text-xs"
+            >
+              🌲 El Bosque Antiguo
+            </button>
+            <button
+              onClick={() => {
+                sound.chime();
+                setI16Choice("🏰 El castillo de piedra");
+                triggerWin();
+              }}
+              className="flex-1 wood-btn py-2 bg-indigo-600 text-white font-bold text-xs"
+            >
+              🏰 El Castillo de Piedra
+            </button>
+          </div>
         </div>
       )}
 
@@ -555,21 +675,21 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
       {code === "I17" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Simula la pantalla LED 5x5 de la placa Micro:bit:
+            Dibuja un icono en la matriz 5×5 LED del micro:bit:
           </p>
-          <div className="w-20 h-20 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center text-3xl shadow-md border-2 border-slate-700">
+          <div className="w-16 h-16 mx-auto bg-slate-900 rounded-2xl flex items-center justify-center text-3xl border border-slate-800">
             {i17Icon}
           </div>
           <div className="flex justify-center gap-2">
-            {["❤️", "😊", "⭐"].map((ic) => (
+            {["❤️", "⭐", "😊"].map((ic) => (
               <button
                 key={ic}
                 onClick={() => {
                   sound.click();
                   setI17Icon(ic);
-                  if (ic === "⭐") triggerWin();
+                  triggerWin();
                 }}
-                className="p-2 bg-white rounded-xl border text-xl"
+                className="wood-btn text-base px-3 py-1.5 bg-slate-100"
               >
                 {ic}
               </button>
@@ -582,183 +702,167 @@ export function InventoresGame({ code, onWin, completed }: MinigameProps) {
       {code === "I18" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Usa el Botón A para sumar hasta llegar a 3:
+            Presiona el Botón A para cambiar el patrón de LEDs:
           </p>
-          <div className="text-2xl font-bold font-mono text-indigo-900 bg-indigo-50 p-2 rounded-xl inline-block">
-            Contador: {i18Count} / 3
+          <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs font-mono text-amber-300">
+            {i18BtnA ? "Botón A presionado → Patrón: 🟩🟩🟩🟩🟩" : "En espera del Botón A"}
           </div>
-          <div className="flex justify-center gap-3">
-            <button
-              onClick={() => {
-                sound.click();
-                const next = i18Count + 1;
-                setI18Count(next);
-                if (next >= 3) triggerWin();
-              }}
-              className="wood-btn px-4 py-2 bg-indigo-600 text-white font-bold text-xs"
-            >
-              Botón A (+1)
-            </button>
-            <button
-              onClick={() => {
-                sound.click();
-                setI18Count(Math.max(0, i18Count - 1));
-              }}
-              className="wood-btn px-4 py-2 bg-slate-200 text-slate-700 font-bold text-xs"
-            >
-              Botón B (-1)
-            </button>
-          </div>
+          <button
+            onClick={() => {
+              sound.click();
+              setI18BtnA(true);
+              triggerWin();
+            }}
+            className="wood-btn px-5 py-2 bg-amber-400 text-amber-950 font-bold text-xs"
+          >
+            🔘 Presionar Botón A
+          </button>
         </div>
       )}
 
-      {/* I19: Sensores */}
+      {/* I19: Sensores del entorno */}
       {code === "I19" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Ajusta el sensor de temperatura hasta superar los 30°C:
+            Ajusta el sensor de nivel de luz ambiental:
           </p>
           <div className="text-sm font-bold text-slate-800 bg-amber-50 p-2 rounded-xl">
-            Sensor: {i19SensorVal}°C {i19SensorVal >= 30 ? "🔥 ¡Alerta de calor!" : "🌡️ Normal"}
+            Luz: {i19Light} / 255 → {i19Light > 120 ? "☀️ Día" : "🌙 Noche"}
           </div>
-          <input
-            type="range"
-            min="15"
-            max="40"
-            value={i19SensorVal}
-            onChange={(e) => {
-              const val = Number(e.target.value);
-              setI19SensorVal(val);
-              if (val >= 32) triggerWin();
-            }}
-            className="w-48 mx-auto"
-          />
+          <div className="flex justify-center gap-2">
+            <button
+              onClick={() => {
+                sound.click();
+                setI19Light(200);
+                triggerWin();
+              }}
+              className="wood-btn text-xs px-3 py-1.5 bg-amber-400 text-amber-950 font-bold"
+            >
+              Simular Sol (200)
+            </button>
+            <button
+              onClick={() => {
+                sound.click();
+                setI19Light(40);
+              }}
+              className="wood-btn text-xs px-3 py-1.5 bg-slate-800 text-white font-bold"
+            >
+              Simular Noche (40)
+            </button>
+          </div>
         </div>
       )}
 
-      {/* I20: Juego con la placa */}
+      {/* I20: Radio y comunicación */}
       {code === "I20" && (
-        <div className="space-y-3 text-center">
+        <div className="space-y-3">
           <p className="text-xs text-slate-600">
-            Agita la placa para jugar Piedra, Papel o Tijera:
+            Envía un paquete de radio entre dos placas micro:bit:
           </p>
-          <div className="text-4xl h-14 flex items-center justify-center">
-            {i20Roll || "📟"}
+          <div className="p-2.5 bg-slate-900 rounded-xl text-xs font-mono text-cyan-400">
+            {i20Msg ? `Radio RX: "${i20Msg}" ⭐` : "En espera de paquete por radio..."}
           </div>
           <button
             onClick={() => {
-              sound.click();
-              const choices = ["✊ Piedra", "✋ Papel", "✌️ Tijera"];
-              const pick = choices[Math.floor(Math.random() * choices.length)];
-              setI20Roll(pick);
+              sound.chime();
+              setI20Msg("HOLA_FAMILIA");
               triggerWin();
             }}
-            className="wood-btn px-4 py-2 bg-emerald-500 text-white font-bold text-xs"
+            className="w-full wood-btn py-2 bg-cyan-600 text-white font-bold text-xs"
           >
-            🎲 ¡Agitar Placa!
+            📡 Enviar Mensaje por Radio
           </button>
         </div>
       )}
 
-      {/* I21: ¿Cómo funciona internet? */}
+      {/* I21: Dado electrónico */}
       {code === "I21" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Envía 3 paquetes de datos a través de los routers de la red:
+            Sacude la placa para generar un número aleatorio del 1 al 6:
           </p>
-          <div className="flex justify-center gap-3 items-center text-xs font-bold text-slate-700">
-            <span>💻 Emisor</span>
-            <span>➡️ 🌐 Router ➡️</span>
-            <span>🖥️ Servidor</span>
+          <div className="text-3xl font-extrabold text-amber-950 bg-amber-50 w-16 h-16 mx-auto rounded-2xl flex items-center justify-center border border-amber-300">
+            {i21Dice}
           </div>
           <button
             onClick={() => {
               sound.click();
-              const next = i21Packets + 1;
-              setI21Packets(next);
-              if (next >= 3) triggerWin();
+              const next = Math.floor(Math.random() * 6) + 1;
+              setI21Dice(next);
+              triggerWin();
             }}
-            className="wood-btn px-4 py-2 bg-sky-500 text-white font-bold text-xs"
+            className="wood-btn px-4 py-2 bg-amber-400 text-amber-950 font-bold text-xs"
           >
-            📦 Enviar Paquete IP ({i21Packets}/3)
+            🎲 Sacudir Placa (Shake)
           </button>
         </div>
       )}
 
-      {/* I22: ¿Qué es la IA? */}
+      {/* I22: Podómetro */}
       {code === "I22" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Entrena el modelo clasificando 3 ejemplos:
+            Cuenta pasos detectando aceleración en el eje Z:
           </p>
-          <div className="text-xs font-bold text-indigo-900 bg-indigo-50 p-2 rounded-xl">
-            Ejemplos de entrenamiento: {i22Trained} / 3
+          <div className="text-xl font-bold font-mono text-emerald-900 bg-emerald-50 p-2.5 rounded-2xl border border-emerald-200">
+            👟 Pasos: {i22Steps} / 5
           </div>
           <button
             onClick={() => {
               sound.click();
-              const next = i22Trained + 1;
-              setI22Trained(next);
-              if (next >= 3) triggerWin();
+              const next = i22Steps + 1;
+              setI22Steps(next);
+              if (next >= 5) triggerWin();
             }}
-            className="wood-btn px-4 py-2 bg-indigo-600 text-white font-bold text-xs"
+            className="wood-btn px-4 py-2 bg-emerald-500 text-white font-bold text-xs"
           >
-            🧠 Entrenar Red Neuronal con Dato
+            🚶 Simular Paso (+1)
           </button>
         </div>
       )}
 
-      {/* I23: Contraseñas y privacidad */}
+      {/* I23: Brújula */}
       {code === "I23" && (
         <div className="space-y-3 text-center">
           <p className="text-xs text-slate-600">
-            Escribe una contraseña segura (al menos 8 caracteres con símbolos):
+            Calibra el magnetómetro para encontrar el Norte magnético:
           </p>
-          <input
-            type="text"
-            value={i23Pass}
-            onChange={(e) => {
-              const val = e.target.value;
-              setI23Pass(val);
-              if (val.length >= 8 && /[!@#$%^&*0-9]/.test(val)) {
-                triggerWin();
-              }
-            }}
-            placeholder="Ej: Clave#2026!"
-            className="px-3 py-1.5 text-xs rounded-xl border border-slate-300 w-48 mx-auto block"
-          />
-          <div className="text-[11px] text-slate-500">
-            {i23Pass.length >= 8 && /[!@#$%^&*0-9]/.test(i23Pass)
-              ? "✅ ¡Contraseña Fuerte!"
-              : "Ingresa 8+ letras y un número o símbolo"}
+          <div className="w-16 h-16 mx-auto rounded-full border-2 border-slate-700 bg-slate-900 flex items-center justify-center text-xl text-white">
+            🧭
           </div>
+          <button
+            onClick={() => {
+              sound.chime();
+              setI23Heading(0);
+              triggerWin();
+            }}
+            className="wood-btn px-4 py-2 bg-indigo-600 text-white font-bold text-xs"
+          >
+            🧭 Apuntar al Norte (0°)
+          </button>
         </div>
       )}
 
       {/* I24: Proyecto final de Inventores */}
       {code === "I24" && (
         <div className="space-y-3 text-center">
-          <p className="text-xs text-slate-600">
-            ¡Proyecto final de Inventores! Activa los tres subsistemas:
+          <div className="text-4xl animate-bounce">🏆</div>
+          <h4 className="font-fun text-base font-bold text-slate-800">
+            ¡Felicitaciones por graduarte del Nivel Inventores!
+          </h4>
+          <p className="text-xs text-slate-600 max-w-sm mx-auto">
+            Dominaste la transición de bloques a Python, la robótica con micro:bit y el pensamiento computacional.
           </p>
-          <div className="flex justify-center gap-2">
-            {["Sensores", "Lógica", "Conexión"].map((sys) => (
-              <button
-                key={sys}
-                onClick={() => {
-                  sound.click();
-                  const next = { ...i24Activated, [sys]: true };
-                  setI24Activated(next);
-                  if (Object.keys(next).length >= 3) triggerWin();
-                }}
-                className={`wood-btn text-xs px-3 py-1.5 font-bold ${
-                  i24Activated[sys] ? "bg-emerald-500 text-white" : "bg-white text-slate-700"
-                }`}
-              >
-                {sys} {i24Activated[sys] ? "✅" : "⚪"}
-              </button>
-            ))}
-          </div>
+          <button
+            onClick={() => {
+              sound.chime();
+              confetti({ particleCount: 80, spread: 80, origin: { y: 0.5 } });
+              triggerWin();
+            }}
+            className="wood-btn px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs shadow-md"
+          >
+            ⭐ Sellar Pasaporte de Inventor/a
+          </button>
         </div>
       )}
     </div>

@@ -1,3 +1,4 @@
+import EducatorHomeCta from "@/components/EducatorHomeCta";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -10,6 +11,9 @@ import {
   BookOpen,
   ArrowRight,
   CheckCircle2,
+  Scissors,
+  Binary,
+  Terminal,
 } from "lucide-react";
 
 export default function HomePage() {
@@ -367,13 +371,18 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           
           {/* Card 1: Robot Boty */}
-          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-emerald-50/40 border-2 border-emerald-200/80 flex flex-col justify-between">
+          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-emerald-50/40 border-2 border-emerald-200/80 flex flex-col justify-between hover:-translate-y-1 transition-transform">
             <div className="space-y-3 sm:space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl border border-emerald-300">
-                🤖
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl border border-emerald-300 shadow-xs">
+                  🤖
+                </div>
+                <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+                  🎬 Demo animada
+                </span>
               </div>
               <div>
                 <h3 className="font-fun text-lg sm:text-xl font-bold text-slate-800">
@@ -396,10 +405,15 @@ export default function HomePage() {
           </div>
 
           {/* Card 2: Ruleta Familiar */}
-          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-purple-50/40 border-2 border-purple-200/80 flex flex-col justify-between">
+          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-purple-50/40 border-2 border-purple-200/80 flex flex-col justify-between hover:-translate-y-1 transition-transform">
             <div className="space-y-3 sm:space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center text-2xl border border-purple-300">
-                🎡
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center text-2xl border border-purple-300 shadow-xs">
+                  🎡
+                </div>
+                <span className="text-[10px] font-bold text-purple-800 bg-purple-100 px-2 py-0.5 rounded-full">
+                  🎬 Demo animada
+                </span>
               </div>
               <div>
                 <h3 className="font-fun text-lg sm:text-xl font-bold text-slate-800">
@@ -421,30 +435,136 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Card 3: Pasaporte & Sellos */}
-          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-amber-50/40 border-2 border-amber-200/80 flex flex-col justify-between">
+          {/* Card 3: Actividades Desenchufadas */}
+          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-teal-50/40 border-2 border-teal-200/80 flex flex-col justify-between hover:-translate-y-1 transition-transform">
             <div className="space-y-3 sm:space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl border border-amber-300">
-                🌟
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-teal-100 text-teal-800 flex items-center justify-center text-2xl border border-teal-300 shadow-xs">
+                  ✂️
+                </div>
+                <span className="text-[10px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full">
+                  8 Retos Sin Pantalla
+                </span>
               </div>
               <div>
                 <h3 className="font-fun text-lg sm:text-xl font-bold text-slate-800">
-                  Pasaporte & Diplomas
+                  Actividades Sin Pantalla
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                  Cada misión cumplida otorga un sello brillante en el pasaporte. Al completar un nivel, descarguen su diploma oficial para imprimir.
+                  Red de hilo, laberintos en el piso, clasificación de frutas y criptografía con cartas. Ciencia de la computación corporal y tangible.
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[11px] font-semibold text-amber-900 bg-amber-100/70 p-2 rounded-xl">
-                <span>🖨️ Diplomas imprimibles con nombre personalizado</span>
+              <div className="flex items-center gap-2 text-[11px] font-semibold text-teal-900 bg-teal-100/70 p-2 rounded-xl">
+                <span>🧶 Lana, vasos, frutas y materiales de casa</span>
               </div>
             </div>
             <Link
-              href="/pasaporte"
-              className="wood-btn bg-amber-400 hover:bg-amber-500 text-amber-950 text-xs sm:text-sm mt-5 font-bold w-full"
+              href="/desenchufado"
+              className="wood-btn bg-teal-400 hover:bg-teal-500 text-teal-950 text-xs sm:text-sm mt-5 font-bold w-full"
             >
-              Abrir Pasaporte <ArrowRight className="w-4 h-4" />
+              Ver las 8 Actividades <ArrowRight className="w-4 h-4" />
             </Link>
+          </div>
+
+          {/* Card 4: Laboratorio Scratch */}
+          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-rose-50/40 border-2 border-rose-200/80 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-800 flex items-center justify-center text-2xl border border-rose-300 shadow-xs">
+                  🧩
+                </div>
+                <span className="text-[10px] font-bold text-rose-800 bg-rose-100 px-2 py-0.5 rounded-full">
+                  🎬 Demo animada
+                </span>
+              </div>
+              <div>
+                <h3 className="font-fun text-lg sm:text-xl font-bold text-slate-800">
+                  Laboratorio Scratch
+                </h3>
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                  Apila bloques visuales para animar al personaje: caminar, saltar, rotar 360° y decir frases divertidas con efectos sonoros.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] font-semibold text-rose-900 bg-rose-100/70 p-2 rounded-xl">
+                <span>🐱 Ideal de 7 a 11 años</span>
+              </div>
+            </div>
+            <Link
+              href="/scratch"
+              className="wood-btn bg-rose-300 hover:bg-rose-400 text-rose-950 text-xs sm:text-sm mt-5 font-bold w-full"
+            >
+              Abrir Laboratorio Scratch <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Card 5: Taller Binario 8-Bits */}
+          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-cyan-50/40 border-2 border-cyan-200/80 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-100 text-cyan-800 flex items-center justify-center text-2xl border border-cyan-300 shadow-xs">
+                  💡
+                </div>
+                <span className="text-[10px] font-bold text-cyan-800 bg-cyan-100 px-2 py-0.5 rounded-full">
+                  🎬 Demo animada
+                </span>
+              </div>
+              <div>
+                <h3 className="font-fun text-lg sm:text-xl font-bold text-slate-800">
+                  Taller Binario 8-Bits
+                </h3>
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                  Enciende y apaga 8 interruptores mecánicos para descubrir cómo los ceros y unos forman números decimales y letras secretas en código ASCII.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] font-semibold text-cyan-900 bg-cyan-100/70 p-2 rounded-xl">
+                <span>🔢 128, 64, 32, 16, 8, 4, 2, 1</span>
+              </div>
+            </div>
+            <Link
+              href="/binario"
+              className="wood-btn bg-cyan-300 hover:bg-cyan-400 text-cyan-950 text-xs sm:text-sm mt-5 font-bold w-full"
+            >
+              Encender Bits <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Card 6: Micro:bit & Python */}
+          <div className="wood-card p-5 sm:p-6 bg-gradient-to-br from-white to-amber-50/40 border-2 border-amber-200/80 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl border border-amber-300 shadow-xs">
+                  📟
+                </div>
+                <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full">
+                  Hardware & Código
+                </span>
+              </div>
+              <div>
+                <h3 className="font-fun text-lg sm:text-xl font-bold text-slate-800">
+                  Micro:bit & Python
+                </h3>
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                  Prueba la matriz 5x5 LED con botones A/B o escribe tus primeras recetas en la consola interactiva de Python sin instalar nada.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] font-semibold text-amber-900 bg-amber-100/70 p-2 rounded-xl">
+                <span>🐍 Código real para los más curiosos</span>
+              </div>
+            </div>
+            <div className="flex gap-2 mt-5">
+              <Link
+                href="/microbit"
+                className="wood-btn bg-indigo-400 hover:bg-indigo-500 text-indigo-950 text-xs font-bold flex-1 text-center py-2.5"
+              >
+                Micro:bit ➔
+              </Link>
+              <Link
+                href="/python"
+                className="wood-btn bg-amber-400 hover:bg-amber-500 text-amber-950 text-xs font-bold flex-1 text-center py-2.5"
+              >
+                Python ➔
+              </Link>
+            </div>
           </div>
 
         </div>
@@ -473,6 +593,9 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* DEDICATED EDUCATOR & SCHOOL CTA */}
+      <EducatorHomeCta />
 
     </div>
   );

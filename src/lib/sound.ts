@@ -111,11 +111,45 @@ class SensorySound {
     } catch {}
   }
 
+
+  // Gentle Scratch Cat Meow synthesis
+  playCatMeow() {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(380, now);
+      osc.frequency.exponentialRampToValueAtTime(740, now + 0.16);
+      osc.frequency.exponentialRampToValueAtTime(360, now + 0.42);
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(1150, now);
+      filter.Q.setValueAtTime(3.2, now);
+
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(0.2, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.45);
+    } catch {}
+  }
+
   // Aliases for convenience
   click() { this.playWoodClick(); }
   stamp() { this.playStampFanfare(); }
   chime() { this.playStarChime(); }
   bump() { this.playGentleBump(); }
+  meow() { this.playCatMeow(); }
 }
 
 export const sound = new SensorySound();

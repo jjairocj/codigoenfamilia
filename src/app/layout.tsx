@@ -8,9 +8,15 @@ export const viewport: Viewport = {
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import { PassportProvider } from "@/context/PassportContext";
+import FeedbackModal from "@/components/FeedbackModal";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://codigoenfamilia.com";
+const envUrl = process.env.NEXT_PUBLIC_APP_URL;
+const siteUrl = (envUrl && !envUrl.includes("localhost") && !envUrl.includes("127.0.0.1"))
+  ? envUrl.replace(/\/$/, "")
+  : "https://codigoenfamilia.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -166,9 +172,12 @@ export default function RootLayout({
           </div>
 
           <div className="relative z-10 flex flex-col min-h-screen overflow-x-hidden">
+            <AnalyticsTracker />
             <Navbar />
             <main className="flex-1 w-full overflow-x-hidden">{children}</main>
             <Footer />
+            <FeedbackModal />
+            <ServiceWorkerRegister />
           </div>
         </PassportProvider>
       </body>

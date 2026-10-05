@@ -1,3 +1,4 @@
+import ConceptDetailMotion from "@/components/ConceptDetailMotion";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import conceptsData from "@/data/concepts.json";
@@ -209,7 +210,8 @@ export default async function ConceptDetailPage({
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <ConceptDetailMotion>
       {/* Breadcrumb Navigation */}
       <nav aria-label="Ruta de navegación" className="flex items-center gap-2 text-xs text-slate-500 font-medium">
         <Link href="/" className="hover:text-teal-700 transition-colors">
@@ -224,7 +226,7 @@ export default async function ConceptDetailPage({
       </nav>
 
       {/* Main Hero Header Card */}
-      <div className="wood-card p-6 sm:p-9 bg-gradient-to-br from-teal-50 via-white to-emerald-50 border-2 border-teal-300 shadow-sm space-y-4">
+      <div className="concept-motion-header wood-card p-6 sm:p-9 bg-gradient-to-br from-teal-50 via-white to-emerald-50 border-2 border-teal-300 shadow-sm space-y-4">
         <div className="flex items-center gap-2">
           <span className="font-fun text-xs font-bold px-3 py-1 rounded-full bg-teal-100 text-teal-900 border border-teal-300 flex items-center gap-1.5">
             <BookOpen className="w-3.5 h-3.5 text-teal-700" />
@@ -252,7 +254,7 @@ export default async function ConceptDetailPage({
 
           {/* 1. EXPLICACIÓN PARA NIÑOS */}
           {parsed.kids && (
-            <div className="wood-card p-6 sm:p-7 bg-white border-2 border-teal-200/90 shadow-xs space-y-3">
+            <div className="concept-motion-box wood-card p-6 sm:p-7 bg-white border-2 border-teal-200/90 shadow-xs space-y-3">
               <div className="flex items-center gap-2 pb-2 border-b border-teal-100">
                 <span className="text-2xl">🧒</span>
                 <h2 className="font-fun text-base sm:text-lg font-bold text-slate-900">
@@ -271,7 +273,7 @@ export default async function ConceptDetailPage({
 
           {/* 2. EN LA VIDA DIARIA (ANALOGÍA) */}
           {parsed.daily && (
-            <div className="wood-card p-6 sm:p-7 bg-gradient-to-br from-amber-50 to-orange-50/40 border-2 border-amber-300 shadow-xs space-y-3">
+            <div className="concept-motion-box wood-card p-6 sm:p-7 bg-gradient-to-br from-amber-50 to-orange-50/40 border-2 border-amber-300 shadow-xs space-y-3">
               <div className="flex items-center gap-2 pb-2 border-b border-amber-200">
                 <span className="text-2xl">🏠</span>
                 <h2 className="font-fun text-base sm:text-lg font-bold text-amber-950">
@@ -294,7 +296,7 @@ export default async function ConceptDetailPage({
         <div className="lg:col-span-5 space-y-6">
           
           {parsed.adult ? (
-            <div className="wood-card p-6 sm:p-7 bg-purple-50/90 border-2 border-purple-300 shadow-xs space-y-3">
+            <div className="concept-motion-box wood-card p-6 sm:p-7 bg-purple-50/90 border-2 border-purple-300 shadow-xs space-y-3">
               <div className="flex items-center gap-2 pb-2 border-b border-purple-200">
                 <HeartHandshake className="w-5 h-5 text-purple-700" />
                 <h3 className="font-fun text-sm sm:text-base font-bold text-purple-950">
@@ -341,7 +343,7 @@ export default async function ConceptDetailPage({
 
       {/* 3. CÓMO SE TRABAJA EN CADA NIVEL (Progression Grid) */}
       {parsed.levels.length > 0 && (
-        <div className="wood-card p-6 sm:p-8 bg-white border-2 border-slate-200 space-y-5">
+        <div className="concept-motion-box wood-card p-6 sm:p-8 bg-white border-2 border-slate-200 space-y-5">
           <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
             <Layers className="w-5 h-5 text-teal-600" />
             <h2 className="font-fun text-base sm:text-lg font-bold text-slate-900">
@@ -368,7 +370,7 @@ export default async function ConceptDetailPage({
 
       {/* 4. MISIONES DONDE SE APLICA ESTE CONCEPTO */}
       {relatedMissions.length > 0 && (
-        <div className="wood-card p-6 sm:p-8 bg-gradient-to-br from-amber-50/70 to-yellow-50/40 border-2 border-amber-300 space-y-4">
+        <div className="concept-motion-box wood-card p-6 sm:p-8 bg-gradient-to-br from-amber-50/70 to-yellow-50/40 border-2 border-amber-300 space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-amber-200">
             <div className="flex items-center gap-2">
               <Compass className="w-5 h-5 text-amber-700" />
@@ -392,7 +394,7 @@ export default async function ConceptDetailPage({
               <Link
                 key={m.id}
                 href={`/misiones/${m.id}`}
-                className="p-4 rounded-2xl bg-white border border-amber-200 hover:border-amber-400 hover:shadow-sm transition-all flex flex-col justify-between group"
+                className="concept-motion-item p-4 rounded-2xl bg-white border border-amber-200 hover:border-amber-400 hover:shadow-sm transition-all flex flex-col justify-between group"
               >
                 <div className="space-y-1">
                   <div className="text-[10px] font-bold font-fun text-amber-800 uppercase tracking-wider">
@@ -445,6 +447,7 @@ export default async function ConceptDetailPage({
           <div />
         )}
       </div>
+      </ConceptDetailMotion>
     </div>
   );
 }
